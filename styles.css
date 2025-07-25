@@ -72,8 +72,8 @@ body {
     flex-wrap: wrap;
 }
 
-.export-btn, .filter-btn {
-    background-color: #27ae60;
+.filter-btn {
+    background-color: #3498db;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -82,16 +82,8 @@ body {
     font-size: 14px;
 }
 
-.filter-btn {
-    background-color: #3498db;
-}
-
 .filter-btn.active {
     background-color: #2980b9;
-}
-
-.export-btn:hover {
-    background-color: #219a52;
 }
 
 .filter-btn:hover {
@@ -160,21 +152,6 @@ tr:hover:not(.category):not(.corruption) {
 
 .corruption {
     background: linear-gradient(135deg, #e74c3c, #c0392b) !important;
-    color: var(--text-white) !important;
-}
-
-.state-prison {
-    background: linear-gradient(135deg, #f39c12, #e67e22) !important;
-    color: var(--text-white) !important;
-}
-
-.minor {
-    background: linear-gradient(135deg, #2ecc71, #27ae60) !important;
-    color: var(--text-white) !important;
-}
-
-.high-crime {
-    background: linear-gradient(135deg, #8e44ad, #7d3c98) !important;
     color: var(--text-white) !important;
 }
 
