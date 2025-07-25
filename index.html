@@ -4,7 +4,324 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FiveM RP - Amerikai BTK</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        :root {
+            --bg-primary: #f5f5f5;
+            --bg-secondary: #ffffff;
+            --bg-header: #2c3e50;
+            --bg-table-header: #34495e;
+            --text-primary: #2c3e50;
+            --text-secondary: #7f8c8d;
+            --text-white: #ffffff;
+            --border-color: #ddd;
+            --hover-bg: #e8f4f8;
+            --even-row-bg: #f8f9fa;
+            --shadow: rgba(0,0,0,0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --bg-header: #1e2833;
+            --bg-table-header: #2c3e50;
+            --text-primary: #e8e8e8;
+            --text-secondary: #b0b0b0;
+            --text-white: #ffffff;
+            --border-color: #404040;
+            --hover-bg: #3a3a3a;
+            --even-row-bg: #353535;
+            --shadow: rgba(0,0,0,0.3);
+        }
+
+        * {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--bg-header), #34495e);
+            color: var(--text-white);
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+            position: relative;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: var(--text-white);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            backdrop-filter: blur(10px);
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin: 10px 0;
+            flex-wrap: wrap;
+        }
+
+        .export-btn, .filter-btn {
+            background-color: #27ae60;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .filter-btn {
+            background-color: #3498db;
+        }
+
+        .filter-btn.active {
+            background-color: #2980b9;
+        }
+        
+        .export-btn:hover {
+            background-color: #219a52;
+        }
+
+        .filter-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .search-box {
+            padding: 8px 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 5px;
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 14px;
+            min-width: 200px;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--bg-secondary);
+            box-shadow: 0 2px 10px var(--shadow);
+            border-radius: 0 0 8px 8px;
+            overflow: hidden;
+        }
+        
+        th {
+            background-color: var(--bg-table-header);
+            color: var(--text-white);
+            padding: 15px 12px;
+            text-align: left;
+            font-weight: bold;
+            border: 1px solid var(--bg-header);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        td {
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            vertical-align: top;
+            color: var(--text-primary);
+        }
+        
+        tr:nth-child(even) {
+            background-color: var(--even-row-bg);
+        }
+        
+        tr:hover:not(.category):not(.corruption) {
+            background-color: var(--hover-bg);
+        }
+        
+        .category {
+            background: linear-gradient(135deg, #3498db, #2980b9) !important;
+            color: var(--text-white) !important;
+            font-weight: bold;
+            text-align: center;
+            font-size: 16px;
+            padding: 15px !important;
+        }
+        
+        .corruption {
+            background: linear-gradient(135deg, #e74c3c, #c0392b) !important;
+            color: var(--text-white) !important;
+        }
+        
+        .state-prison {
+            background: linear-gradient(135deg, #f39c12, #e67e22) !important;
+            color: var(--text-white) !important;
+        }
+        
+        .minor {
+            background: linear-gradient(135deg, #2ecc71, #27ae60) !important;
+            color: var(--text-white) !important;
+        }
+
+        .high-crime {
+            background: linear-gradient(135deg, #8e44ad, #7d3c98) !important;
+            color: var(--text-white) !important;
+        }
+        
+        .code {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: #2980b9;
+            background: rgba(52, 152, 219, 0.1);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        [data-theme="dark"] .code {
+            color: #5dade2;
+            background: rgba(52, 152, 219, 0.2);
+        }
+        
+        .fine {
+            color: #27ae60;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        [data-theme="dark"] .fine {
+            color: #58d68d;
+        }
+        
+        .prison {
+            color: #e74c3c;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        [data-theme="dark"] .prison {
+            color: #ec7063;
+        }
+
+        .severity-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .severity-low { background-color: #2ecc71; }
+        .severity-medium { background-color: #f39c12; }
+        .severity-high { background-color: #e74c3c; }
+        .severity-extreme { background-color: #8e44ad; }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: var(--bg-secondary);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px var(--shadow);
+            text-align: center;
+            border: 2px solid var(--border-color);
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #3498db;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .notes {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
+            border-left: 5px solid #3498db;
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+
+        .notes h3 {
+            color: var(--text-primary);
+            margin-top: 0;
+        }
+
+        .notes ul {
+            color: var(--text-primary);
+        }
+
+        .notes li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                margin: 10px;
+            }
+            
+            .header {
+                text-align: left;
+                padding: 15px;
+            }
+
+            .theme-toggle {
+                position: static;
+                margin-top: 10px;
+                display: block;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-box {
+                min-width: auto;
+            }
+            
+            table {
+                font-size: 14px;
+            }
+            
+            th, td {
+                padding: 8px;
+            }
+        }
+    </style>
 </head>
 <body data-theme="light">
     <div class="header">
@@ -63,7 +380,828 @@
                 <td><span class="severity-indicator severity-low"></span></td>
                 <td class="code">TRES-1</td>
                 <td>Magántulajdon megsértése</td>
+                <td class="fine">$200,000</td>
+                <td class="prison">100</td>
+                <td>Rendőr életének veszélyeztetése fegyverrel</td>
+            </tr>
+            
+            <!-- FEGYVER BŰNCSELEKMÉNYEK -->
+            <tr class="category">
+                <td colspan="6">IX. FEGYVER BŰNCSELEKMÉNYEK</td>
+            </tr>
+            <tr data-category="medium">
+                <td><span class="severity-indicator severity-medium"></span></td>
+                <td class="code">WEAP-1</td>
+                <td>Illegális fegyvertartás (pisztoly)</td>
+                <td class="fine">$85,000</td>
+                <td class="prison">70</td>
+                <td>Engedély nélküli kézifegyver birtoklás</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-high"></span></td>
+                <td class="code">WEAP-2</td>
+                <td>Illegális fegyvertartás (automatikus)</td>
+                <td class="fine">$125,000</td>
+                <td class="prison">85</td>
+                <td>Géppisztoly, rohampuska engedély nélkül</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-extreme"></span></td>
+                <td class="code">WEAP-3</td>
+                <td>Fegyverkereskedelem</td>
+                <td class="fine">$200,000</td>
+                <td class="prison">95</td>
+                <td>Illegális fegyverek értékesítése</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-high"></span></td>
+                <td class="code">THRT-1</td>
+                <td>Fegyverrel fenyegetés</td>
+                <td class="fine">$65,000</td>
+                <td class="prison">60</td>
+                <td>Fegyver előrántása, fenyegetőzés</td>
+            </tr>
+            
+            <!-- KORRUPCIÓ -->
+            <tr class="corruption">
+                <td colspan="6">X. KORRUPCIÓS BŰNCSELEKMÉNYEK</td>
+            </tr>
+            <tr data-category="corruption" class="state-prison">
+                <td><span class="severity-indicator severity-high"></span></td>
+                <td class="code">CORR-1</td>
+                <td>Hivatali korrupció (alacsony)</td>
+                <td class="fine">$100,000</td>
+                <td class="prison">85</td>
+                <td>Kisebb összegű vesztegetés ($10,000 alatt)</td>
+            </tr>
+            <tr data-category="corruption" class="state-prison">
+                <td><span class="severity-indicator severity-extreme"></span></td>
+                <td class="code">CORR-2</td>
+                <td>Súlyos hivatali korrupció</td>
+                <td class="fine">$300,000</td>
+                <td class="prison">115</td>
+                <td>Nagy összegű vesztegetés ($10,000+)</td>
+            </tr>
+            <tr data-category="corruption" class="state-prison">
+                <td><span class="severity-indicator severity-high"></span></td>
+                <td class="code">BRIB-1</td>
+                <td>Vesztegetés (aktív)</td>
+                <td class="fine">$150,000</td>
+                <td class="prison">90</td>
+                <td>Hivatalnok megvesztegetése</td>
+            </tr>
+            <tr data-category="corruption" class="state-prison">
+                <td><span class="severity-indicator severity-high"></span></td>
+                <td class="code">BRIB-2</td>
+                <td>Vesztegetés (passzív)</td>
+                <td class="fine">$180,000</td>
+                <td class="prison">95</td>
+                <td>Vesztegetés elfogadása hivatalnokként</td>
+            </tr>
+            <tr data-category="corruption" class="state-prison">
+                <td><span class="severity-indicator severity-extreme"></span></td>
+                <td class="code">EMBE-1</td>
+                <td>Sikkasztás</td>
+                <td class="fine">$250,000</td>
+                <td class="prison">105</td>
+                <td>Közpénz/vagyon jogtalan elsajátítása</td>
+            </tr>
+            <tr data-category="corruption" class="state-prison">
+                <td><span class="severity-indicator severity-extreme"></span></td>
+                <td class="code">CONSP-1</td>
+                <td>Összeesküvés</td>
+                <td class="fine">$400,000</td>
+                <td class="prison">125</td>
+                <td>Szervezett korrupciós tevékenység</td>
+            </tr>
+            
+            <!-- VISSZAESÉSES BŰNCSELEKMÉNYEK -->
+            <tr class="category">
+                <td colspan="6">XI. VISSZAESÉSES BŰNCSELEKMÉNYEK (ESCALATING FINES)</td>  
+            </tr>
+            <tr data-category="minor">
+                <td><span class="severity-indicator severity-low"></span></td>
+                <td class="code">CHIP-1</td>
+                <td>Gépjármű chip-elés (1. alkalom)</td>
+                <td class="fine">$25,000</td>
+                <td class="prison">0</td>
+                <td>Járművek elektronikus rendszerének manipulálása - első elkövetés</td>
+            </tr>
+            <tr data-category="minor">
+                <td><span class="severity-indicator severity-medium"></span></td>
+                <td class="code">CHIP-2</td>
+                <td>Gépjármű chip-elés (2. alkalom)</td>
+                <td class="fine">$50,000</td>
+                <td class="prison">0</td>
+                <td>Járművek elektronikus rendszerének manipulálása - második elkövetés</td>
+            </tr>
+            <tr data-category="medium">
+                <td><span class="severity-indicator severity-medium"></span></td>
+                <td class="code">CHIP-3</td>
+                <td>Gépjármű chip-elés (3. alkalom)</td>
+                <td class="fine">$75,000</td>
+                <td class="prison">0</td>
+                <td>Járművek elektronikus rendszerének manipulálása - harmadik elkövetés</td>
+            </tr>
+            <tr data-category="medium">
+                <td><span class="severity-indicator severity-high"></span></td>
+                <td class="code">CHIP-4</td>
+                <td>Gépjármű chip-elés (4+ alkalom)</td>
+                <td class="fine">$100,000</td>
+                <td class="prison">0</td>
+                <td>Járművek elektronikus rendszerének manipulálása - negyedik és további</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-high"></span></td>
+                <td class="code">CHIP-5</td>
+                <td>Gépjármű chip-elés (visszaeső)</td>
+                <td class="fine">$100,000</td>
+                <td class="prison">45</td>
+                <td>Járművek elektronikus rendszerének manipulálása - 5+ alkalom után börtönnel</td>
+            </tr>
+            <tr data-category="corruption" class="state-prison">
+                <td><span class="severity-indicator severity-extreme"></span></td>
+                <td class="code">LAUN-1</td>
+                <td>Pénzmosás</td>
+                <td class="fine">$350,000</td>
+                <td class="prison">120</td>
+                <td>Illegális pénzek legalizálása</td>
+            </tr>
+            
+            <!-- LEGSÚLYOSABB BŰNCSELEKMÉNYEK -->
+            <tr class="category">
+                <td colspan="6">XII. LEGSÚLYOSABB BŰNCSELEKMÉNYEK</td>
+            </tr>
+            <tr data-category="serious" class="state-prison">
+                <td><span class="severity-indicator severity-extreme"></span></td>
+                <td class="code">KIDN-1</td>
+                <td>Emberrablás</td>
+                <td class="fine">$350,000</td>
+                <td class="prison">120</td>
+                <td>Személy akarata ellenére fogva tartás</td>
+            </tr>
+            <tr data-category="serious" class="state-prison">
+                <td><span class="severity-indicator severity-extreme"></span></td>
+                <td class="code">ARSO-1</td>
+                <td>Gyújtogatás</td>
+                <td class="fine">$275,000</td>
+                <td class="prison">110</td>
+                <td>Szándékos tűzokozás</td>
+            </tr>
+            <tr data-category="serious" class="state-prison">
+                <td><span class="severity-indicator severity-extreme"></span></td>
+                <td class="code">MASS-1</td>
+                <td>Tömeges erőszak</td>
+                <td class="fine">$600,000</td>
+                <td class="prison">140</td>
+                <td>Többszemélyes támadás fegyverrel, tömeges károkozás</td>
+            </tr>
+            <tr data-category="serious" class="state-prison">
+                <td><span class="severity-indicator severity-extreme"></span></td>
+                <td class="code">MURD-3</td>
+                <td>Harmad- és másodfokú gyilkosság</td>
+                <td class="fine">$750,000</td>
+                <td class="prison">140</td>
+                <td>Szándékos emberölés súlyosító körülmények nélkül</td>
+            </tr>
+            <tr data-category="serious" class="state-prison">
+                <td><span class="severity-indicator severity-extreme"></span></td>
+                <td class="code">MURD-1</td>
+                <td>Elsőfokú gyilkosság</td>
+                <td class="fine">$1,200,000</td>
+                <td class="prison">150</td>
+                <td>Előre megfontolt, különös kegyetlenséggel elkövetett gyilkosság</td>
+            </tr>
+            <tr data-category="serious" class="state-prison">
+                <td><span class="severity-indicator severity-extreme"></span></td>
+                <td class="code">TERR-1</td>
+                <td>Terrorizmus</td>
+                <td class="fine">$1,500,000</td>
+                <td class="prison">150</td>
+                <td>Terrorcselekmény, közbiztonság súlyos veszélyeztetése</td>
+            </tr>
+            <tr data-category="serious" class="state-prison">
+                <td><span class="severity-indicator severity-extreme"></span></td>
+                <td class="code">SEDIT-1</td>
+                <td>Lázadás szítása</td>
+                <td class="fine">$1,500,000</td>
+                <td class="prison">150</td>
+                <td>Állami rend megdöntésére irányuló tevékenység, lázadás szervezése</td>
+            </tr>
+
+        </tbody>
+    </table>
+    
+    <div class="notes">
+        <h3>📋 Fontos megjegyzések és szabályozás:</h3>
+        <ul>
+            <li><strong>🏛️ Állami börtön:</strong> 60 perc (1 óra) feletti büntetések esetén automatikusan állami börtönbe kerül az elkövető</li>
+            <li><strong>🏢 Helyi börtön:</strong> 60 perc alatti büntetések esetén helyi őrizetben tartás</li>
+            <li><strong>💰 Korrupció különleges szabályai:</strong> Hivatali személyek esetén dupla bírság és +25% börtönbüntetés alkalmazható</li>
+            <li><strong>🔄 Többszörös bűncselekmény:</strong> Ugyanazon napon elkövetett több bűncselekmény esetén +50% bírság és börtönbüntetés növekmény</li>
+            <li><strong>📊 Korábbi büntetett előélet:</strong> Már elítélt személyek esetén +25% növekmény minden kategóriában</li>
+            <li><strong>⚖️ Enyhítő körülmények:</strong> Együttműködés, beismerés esetén -15% csökkentés alkalmazható</li>
+            <li><strong>🚨 Súlyosító körülmények:</strong> Fegyver használat, sérülés okozása esetén +30% növekmény</li>
+            <li><strong>👥 Bandatag státusz:</strong> Ismert bandatag esetén +20% növekmény minden bűncselekménynél</li>
+            <li><strong>🎯 Célpont típusa:</strong> Rendvédelmi célpontok (rendőrök, bírók) esetén dupla büntetés</li>
+            <li><strong>⏰ Vészhelyzeti protokoll:</strong> Válsághelyzetben (pl. bandaháború) gyorsított eljárás alkalmazható</li>
+        </ul>
+        
+        <h3>💸 Korrupciós tevékenységek részletes leírása:</h3>
+        <ul>
+            <li><strong>CORR-1 - Kisebb korrupció:</strong> Közlekedési bírság elengedése, kisebb ügyekben szívességek ($1,000-$10,000)</li>
+            <li><strong>CORR-2 - Súlyos korrupció:</strong> Bűnügyek eltusolása, bizonyítékok eltüntetése ($10,000+)</li>
+            <li><strong>BRIB-1 - Aktív vesztegetés:</strong> Pénz/ajándék felajánlása hivatalnoknak</li>
+            <li><strong>BRIB-2 - Passzív vesztegetés:</strong> Vesztegetés elfogadása hivatali személyként</li>
+            <li><strong>EMBE-1 - Sikkasztás:</strong> Lefoglalt tárgyak, pénzek eltulajdonítása</li>
+            <li><strong>CONSP-1 - Összeesküvés:</strong> Több hivatalnok koordinált korrupciós tevékenysége</li>
+        </ul>
+        
+        <h3>🔄 Visszaeséses bűncselekmények (csak pénzbírság):</h3>
+        <ul>
+            <li><strong>🔧 Gépjármű chip-elés:</strong></li>
+            <ul>
+                <li>Első elkövetés: $25,000</li>
+                <li>Második elkövetés: $50,000</li>
+                <li>Harmadik elkövetés: $75,000</li>
+                <li>Negyedik és további: $100,000</li>
+            </ul>
+            <li><strong>Ismétlődő chip-elés esetén börtönbüntetés:</strong> 5+ alkalom után 45 perc börtön</li>
+        </ul>
+        
+        <h3>🎮 Szerver specifikus szabályok:</h3>
+        <ul>
+            <li><strong>RP minőség:</strong> Gyenge roleplay esetén büntetés csökkentése megtagadható</li>
+            <li><strong>OOC szabálysértés:</strong> Játékon kívüli információ használata +100% bírság</li>
+            <li><strong>RDM/VDM:</strong> Random Death/Vehicle Death Match esetén automatikus maximum büntetés</li>
+            <li><strong>Szerver restart:</strong> Folyamatban lévő börtönbüntetés restart után folytatódik</li>
+            <li><strong>Offline büntetés:</strong> Kijelentkezés börtönbüntetés közben +50% időnövelés</li>
+        </ul>
+    </div>
+
+    <script>
+        let currentTheme = 'light';
+        let currentFilter = 'all';
+
+        function toggleTheme() {
+            const body = document.body;
+            const button = document.querySelector('.theme-toggle');
+            
+            if (currentTheme === 'light') {
+                body.setAttribute('data-theme', 'dark');
+                button.innerHTML = '☀️ Világos téma';
+                currentTheme = 'dark';
+            } else {
+                body.setAttribute('data-theme', 'light');
+                button.innerHTML = '🌙 Sötét téma';
+                currentTheme = 'light';
+            }
+            
+            // Memory storage instead of localStorage
+            sessionStorage.setItem('theme', currentTheme);
+        }
+
+        function filterByCategory(category) {
+            currentFilter = category;
+            const rows = document.querySelectorAll('#btkTable tbody tr');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            // Update active button
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Find the clicked button and make it active
+            buttons.forEach(btn => {
+                if (btn.textContent.includes('Összes') && category === 'all') btn.classList.add('active');
+                if (btn.textContent.includes('Kisebb') && category === 'minor') btn.classList.add('active');
+                if (btn.textContent.includes('Közepes') && category === 'medium') btn.classList.add('active');
+                if (btn.textContent.includes('Súlyos') && category === 'serious') btn.classList.add('active');
+                if (btn.textContent.includes('Korrupció') && category === 'corruption') btn.classList.add('active');
+            });
+            
+            rows.forEach(row => {
+                if (row.classList.contains('category') || row.classList.contains('corruption')) {
+                    row.style.display = '';
+                } else if (category === 'all') {
+                    row.style.display = '';
+                } else {
+                    const rowCategory = row.getAttribute('data-category');
+                    if (rowCategory === category) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                }
+            });
+            
+            updateStats();
+        }
+
+        function searchTable() {
+            const input = document.querySelector('.search-box');
+            const filter = input.value.toLowerCase();
+            const rows = document.querySelectorAll('#btkTable tbody tr');
+            
+            rows.forEach(row => {
+                if (row.classList.contains('category') || row.classList.contains('corruption')) {
+                    return;
+                }
+                
+                const code = row.cells[1]?.textContent.toLowerCase() || '';
+                const name = row.cells[2]?.textContent.toLowerCase() || '';
+                const description = row.cells[5]?.textContent.toLowerCase() || '';
+                
+                if (code.includes(filter) || name.includes(filter) || description.includes(filter)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+            
+            updateStats();
+        }
+
+        function updateStats() {
+            const visibleRows = document.querySelectorAll('#btkTable tbody tr:not(.category):not(.corruption):not([style*="display: none"])');
+            
+            let totalCrimes = 0;
+            let totalFines = 0;
+            let totalPrison = 0;
+            let statePrisonCount = 0;
+            
+            visibleRows.forEach(row => {
+                if (row.cells.length >= 5) {
+                    totalCrimes++;
+                    
+                    const fine = parseInt(row.cells[3].textContent.replace(/[\$,]/g, '')) || 0;
+                    const prison = parseInt(row.cells[4].textContent) || 0;
+                    
+                    totalFines += fine;
+                    totalPrison += prison;
+                    
+                    if (prison > 60) {
+                        statePrisonCount++;
+                    }
+                }
+            });
+            
+            document.getElementById('totalCrimes').textContent = totalCrimes;
+            document.getElementById('avgFine').textContent = totalCrimes > 0 ? '15,000</td>
+                <td class="prison">20</td>
+                <td>Engedély nélküli belépés magánterületre</td>
+            </tr>
+            <tr data-category="minor">
+                <td><span class="severity-indicator severity-low"></span></td>
+                <td class="code">DIST-1</td>
+                <td>Közrendzavarás</td>
+                <td class="fine">$18,000</td>
+                <td class="prison">25</td>
+                <td>Hangoskodás, káromkodás közterületen</td>
+            </tr>
+            <tr data-category="minor">
+                <td><span class="severity-indicator severity-low"></span></td>
+                <td class="code">VAND-1</td>
+                <td>Vandalizmus</td>
+                <td class="fine">$22,000</td>
+                <td class="prison">30</td>
+                <td>Köztulajdon megrongálása</td>
+            </tr>
+            <tr data-category="minor">
+                <td><span class="severity-indicator severity-low"></span></td>
+                <td class="code">PRST-1</td>
+                <td>Prostitúció</td>
+                <td class="fine">$25,000</td>
+                <td class="prison">35</td>
+                <td>Szexuális szolgáltatás áruba bocsátása</td>
+            </tr>
+            <tr data-category="minor">
+                <td><span class="severity-indicator severity-low"></span></td>
+                <td class="code">PUB-1</td>
+                <td>Közittasság</td>
+                <td class="fine">$20,000</td>
+                <td class="prison">30</td>
+                <td>Alkohol/drog hatása alatt közterületen</td>
+            </tr>
+            
+            <!-- KÖZLEKEDÉSI BŰNCSELEKMÉNYEK -->
+            <tr class="category">
+                <td colspan="6">II. KÖZLEKEDÉSI BŰNCSELEKMÉNYEK</td>
+            </tr>
+            <tr data-category="minor">
+                <td><span class="severity-indicator severity-low"></span></td>
+                <td class="code">SPEED-1</td>
+                <td>Gyorshajtás (enyhe)</td>
                 <td class="fine">$15,000</td>
+                <td class="prison">20</td>
+                <td>Sebességtúllépés 20 mph alatt</td>
+            </tr>
+            <tr data-category="minor">
+                <td><span class="severity-indicator severity-medium"></span></td>
+                <td class="code">SPEED-2</td>
+                <td>Súlyos gyorshajtás</td>
+                <td class="fine">$35,000</td>
+                <td class="prison">40</td>
+                <td>Sebességtúllépés 20+ mph felett</td>
+            </tr>
+            <tr data-category="minor">
+                <td><span class="severity-indicator severity-medium"></span></td>
+                <td class="code">DUI-1</td>
+                <td>Ittas vezetés</td>
+                <td class="fine">$45,000</td>
+                <td class="prison">50</td>
+                <td>Alkohol/drog hatása alatt vezetés</td>
+            </tr>
+            <tr data-category="minor">
+                <td><span class="severity-indicator severity-medium"></span></td>
+                <td class="code">RECK-1</td>
+                <td>Gondatlan vezetés</td>
+                <td class="fine">$40,000</td>
+                <td class="prison">45</td>
+                <td>Veszélyes manőverek forgalomban</td>
+            </tr>
+            <tr data-category="medium">
+                <td><span class="severity-indicator severity-medium"></span></td>
+                <td class="code">HIT-1</td>
+                <td>Cserbenhagyás</td>
+                <td class="fine">$75,000</td>
+                <td class="prison">65</td>
+                <td>Baleset után távozás a helyszínről</td>
+            </tr>
+            
+            <!-- KISEBB VAGYON ELLENI BŰNCSELEKMÉNYEK -->
+            <tr class="category">
+                <td colspan="6">III. KISEBB VAGYON ELLENI BŰNCSELEKMÉNYEK</td>
+            </tr>
+            <tr data-category="medium">
+                <td><span class="severity-indicator severity-medium"></span></td>
+                <td class="code">ATM-1</td>
+                <td>ATM rablás</td>
+                <td class="fine">$65,000</td>
+                <td class="prison">55</td>
+                <td>Bankautomata feltörése, kifosztása</td>
+            </tr>
+            <tr data-category="medium">
+                <td><span class="severity-indicator severity-medium"></span></td>
+                <td class="code">SHOP-1</td>
+                <td>Boltrablás</td>
+                <td class="fine">$70,000</td>
+                <td class="prison">60</td>
+                <td>24/7, ruházati bolt, stb. kirablása</td>
+            </tr>
+            <tr data-category="medium">
+                <td><span class="severity-indicator severity-medium"></span></td>
+                <td class="code">FUEL-1</td>
+                <td>Benzinlopás</td>
+                <td class="fine">$35,000</td>
+                <td class="prison">40</td>
+                <td>Üzemanyag jogellenes eltulajdonítása</td>
+            </tr>
+            <tr data-category="medium">
+                <td><span class="severity-indicator severity-medium"></span></td>
+                <td class="code">AUTO-1</td>
+                <td>Autólopás (kisebb jármű)</td>
+                <td class="fine">$55,000</td>
+                <td class="prison">50</td>
+                <td>Közönséges járművek lopása (sedan, hatchback)</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-high"></span></td>
+                <td class="code">AUTO-2</td>
+                <td>Autólopás (prémium jármű)</td>
+                <td class="fine">$85,000</td>
+                <td class="prison">70</td>
+                <td>Sport- és luxusautók lopása</td>
+            </tr>
+            
+            <!-- DROG BŰNCSELEKMÉNYEK -->
+            <tr class="category">
+                <td colspan="6">IV. DROG BŰNCSELEKMÉNYEK</td>
+            </tr>
+            <tr data-category="minor">
+                <td><span class="severity-indicator severity-low"></span></td>
+                <td class="code">DRUG-P1</td>
+                <td>Drog birtoklás (kis mennyiség)</td>
+                <td class="fine">$30,000</td>
+                <td class="prison">35</td>
+                <td>Kábítószer személyes használatra (5g alatt)</td>
+            </tr>
+            <tr data-category="medium">
+                <td><span class="severity-indicator severity-medium"></span></td>
+                <td class="code">DRUG-P2</td>
+                <td>Drog birtoklás (nagy mennyiség)</td>
+                <td class="fine">$60,000</td>
+                <td class="prison">55</td>
+                <td>Kábítószer terjesztési szándékkal (5-50g)</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-high"></span></td>
+                <td class="code">DRUG-S1</td>
+                <td>Drog értékesítés</td>
+                <td class="fine">$120,000</td>
+                <td class="prison">80</td>
+                <td>Kábítószer értékesítése utcai szinten</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-high"></span></td>
+                <td class="code">DRUG-S2</td>
+                <td>Drog nagykereskedelem</td>
+                <td class="fine">$200,000</td>
+                <td class="prison">95</td>
+                <td>Nagy mennyiségű kábítószer forgalmazás (50g+)</td>
+            </tr>
+            
+            <!-- KÖZEPES BŰNCSELEKMÉNYEK -->
+            <tr class="category">
+                <td colspan="6">V. KÖZEPES BŰNCSELEKMÉNYEK</td>
+            </tr>
+            <tr data-category="medium">
+                <td><span class="severity-indicator severity-medium"></span></td>
+                <td class="code">THFT-1</td>
+                <td>Lopás</td>
+                <td class="fine">$50,000</td>
+                <td class="prison">60</td>
+                <td>Idegen tulajdon jogtalan elvétele ($5,000 alatt)</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-high"></span></td>
+                <td class="code">THFT-2</td>
+                <td>Súlyos lopás</td>
+                <td class="fine">$85,000</td>
+                <td class="prison">75</td>
+                <td>Idegen tulajdon jogtalan elvétele ($5,000-$50,000)</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-high"></span></td>
+                <td class="code">BURG-1</td>
+                <td>Betörés</td>
+                <td class="fine">$95,000</td>
+                <td class="prison">80</td>
+                <td>Lakóhely/üzlet jogellenes behatolás</td>
+            </tr>
+            <tr data-category="medium">
+                <td><span class="severity-indicator severity-medium"></span></td>
+                <td class="code">FRAU-1</td>
+                <td>Csalás</td>
+                <td class="fine">$65,000</td>
+                <td class="prison">70</td>
+                <td>Hamis dokumentumok, személyazonosság lopás</td>
+            </tr>
+            <tr data-category="medium">
+                <td><span class="severity-indicator severity-medium"></span></td>
+                <td class="code">ASLT-1</td>
+                <td>Testi sértés</td>
+                <td class="fine">$55,000</td>
+                <td class="prison">65</td>
+                <td>Fizikai erőszak másik személy ellen</td>
+            </tr>
+            
+            <!-- SÚLYOS VAGYON ELLENI BŰNCSELEKMÉNYEK -->
+            <tr class="category">
+                <td colspan="6">VI. SÚLYOS VAGYON ELLENI BŰNCSELEKMÉNYEK</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-high"></span></td>
+                <td class="code">HOME-1</td>
+                <td>Házrablás</td>
+                <td class="fine">$150,000</td>
+                <td class="prison">85</td>
+                <td>Lakóingatlan fegyveres kirablása</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-high"></span></td>
+                <td class="code">JEWL-1</td>
+                <td>Ékszerbolt rablás</td>
+                <td class="fine">$300,000</td>
+                <td class="prison">110</td>
+                <td>Ékszerüzlet fegyveres kirablása</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-extreme"></span></td>
+                <td class="code">BANK-1</td>
+                <td>Bankrablás (helyi bank)</td>
+                <td class="fine">$500,000</td>
+                <td class="prison">130</td>
+                <td>Helyi pénzintézet fegyveres kirablása</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-extreme"></span></td>
+                <td class="code">BANK-2</td>
+                <td>Nemzeti bank rablás</td>
+                <td class="fine">$800,000</td>
+                <td class="prison">145</td>
+                <td>Központi bank vagy szövetségi bank kirablása</td>
+            </tr>
+            
+            <!-- SZERVEZETT BŰNÖZÉS -->
+            <tr class="category">
+                <td colspan="6">VII. SZERVEZETT BŰNÖZÉS ÉS BANDAHÁBORÚ</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-extreme"></span></td>
+                <td class="code">GANG-1</td>
+                <td>Bandaháború (részvétel)</td>
+                <td class="fine">$200,000</td>
+                <td class="prison">100</td>
+                <td>Szervezett bűnözői csoportok közti fegyveres összecsapás</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-extreme"></span></td>
+                <td class="code">GANG-2</td>
+                <td>Bandaháború (szervezés)</td>
+                <td class="fine">$350,000</td>
+                <td class="prison">125</td>
+                <td>Bandaháború kezdeményezése, vezetése</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-high"></span></td>
+                <td class="code">RICO-1</td>
+                <td>Szervezett bűnözés</td>
+                <td class="fine">$400,000</td>
+                <td class="prison">120</td>
+                <td>Bűnözői szervezet tagjaként elkövetett cselekmények</td>
+            </tr>
+            
+            <!-- RENDVÉDELEM ELLENI BŰNCSELEKMÉNYEK -->
+            <tr class="category">
+                <td colspan="6">VIII. RENDVÉDELEM ELLENI BŰNCSELEKMÉNYEK</td>
+            </tr>
+            <tr data-category="medium">
+                <td><span class="severity-indicator severity-medium"></span></td>
+                <td class="code">OBST-1</td>
+                <td>Hatóság akadályozása</td>
+                <td class="fine">$35,000</td>
+                <td class="prison">40</td>
+                <td>Rendőri intézkedés akadályozása</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-high"></span></td>
+                <td class="code">RESI-1</td>
+                <td>Hatósági személy elleni erőszak</td>
+                <td class="fine">$75,000</td>
+                <td class="prison">70</td>
+                <td>Rendőr/hivatalnok elleni támadás</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-high"></span></td>
+                <td class="code">FLEE-1</td>
+                <td>Szökés rendőrök elől (gyalogosan)</td>
+                <td class="fine">$65,000</td>
+                <td class="prison">60</td>
+                <td>Gyalogos menekülés rendőri intézkedés elől</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-high"></span></td>
+                <td class="code">FLEE-2</td>
+                <td>Szökés rendőrök elől (járművel)</td>
+                <td class="fine">$85,000</td>
+                <td class="prison">75</td>
+                <td>Járműves menekülés rendőri üldözés során</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-extreme"></span></td>
+                <td class="code">POLI-1</td>
+                <td>Rendőr elleni súlyos támadás</td>
+                <td class="fine">$ + Math.round(totalFines / totalCrimes).toLocaleString() : '$0';
+            document.getElementById('avgPrison').textContent = totalCrimes > 0 ? Math.round(totalPrison / totalCrimes) + ' perc' : '0 perc';
+            document.getElementById('statePrisonCount').textContent = statePrisonCount;
+        }
+
+        function exportToCSV() {
+            const table = document.getElementById('btkTable');
+            let csv = 'sep=,\n'; // Excel separator hint
+            
+            // Header
+            const headers = ['Súlyosság', 'Rövidítés', 'Bűncselekmény megnevezése', 'Átlagos Bírság (USD)', 'Kiszabható börtönbüntetés (perc)', 'Magyarázat'];
+            csv += headers.join(',') + '\n';
+            
+            // Data rows
+            const rows = table.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                if (row.style.display !== 'none' && !row.classList.contains('category') && !row.classList.contains('corruption')) {
+                    const cols = row.querySelectorAll('td');
+                    const rowData = [];
+                    
+                    cols.forEach((col, index) => {
+                        let text = col.textContent.trim();
+                        
+                        // Handle severity indicator
+                        if (index === 0) {
+                            const indicator = col.querySelector('.severity-indicator');
+                            if (indicator && indicator.classList.contains('severity-low')) text = 'Alacsony';
+                            else if (indicator && indicator.classList.contains('severity-medium')) text = 'Közepes';
+                            else if (indicator && indicator.classList.contains('severity-high')) text = 'Magas';
+                            else if (indicator && indicator.classList.contains('severity-extreme')) text = 'Rendkívüli';
+                        }
+                        
+                        // Escape commas and quotes
+                        if (text.includes(',') || text.includes('"') || text.includes('\n')) {
+                            text = '"' + text.replace(/"/g, '""') + '"';
+                        }
+                        rowData.push(text);
+                    });
+                    csv += rowData.join(',') + '\n';
+                }
+            });
+            
+            // Download
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8-sig;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'FiveM_ILE_BTK_Reszletes.csv');
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load saved theme from sessionStorage
+            const savedTheme = sessionStorage.getItem('theme');
+            if (savedTheme && savedTheme === 'dark') {
+                toggleTheme();
+            }
+            
+            // Set first filter button as active
+            const firstFilterBtn = document.querySelector('.filter-btn');
+            if (firstFilterBtn) {
+                firstFilterBtn.classList.add('active');
+            }
+            
+            // Initial stats calculation
+            updateStats();
+        });
+
+        // Additional utility functions
+        function copyTableToClipboard() {
+            const table = document.getElementById('btkTable');
+            const range = document.createRange();
+            range.selectNode(table);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            
+            try {
+                document.execCommand('copy');
+                alert('Táblázat másolva a vágólapra!');
+            } catch (err) {
+                console.error('Másolás sikertelen:', err);
+                alert('Másolás sikertelen. Próbálja újra!');
+            }
+            
+            window.getSelection().removeAllRanges();
+        }
+
+        function printTable() {
+            const printWindow = window.open('', '_blank');
+            const tableHTML = document.documentElement.outerHTML;
+            
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>FiveM BTK - Nyomtatás</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 20px; }
+                        table { width: 100%; border-collapse: collapse; }
+                        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                        th { background-color: #34495e; color: white; }
+                        .category { background-color: #3498db; color: white; font-weight: bold; text-align: center; }
+                        .corruption { background-color: #e74c3c; color: white; }
+                    </style>
+                </head>
+                <body>
+                    ${document.querySelector('table').outerHTML}
+                </body>
+                </html>
+            `);
+            
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Ctrl+F for search focus
+            if (e.ctrlKey && e.key === 'f') {
+                e.preventDefault();
+                document.querySelector('.search-box').focus();
+            }
+            
+            // Ctrl+E for export
+            if (e.ctrlKey && e.key === 'e') {
+                e.preventDefault();
+                exportToCSV();
+            }
+            
+            // Ctrl+T for theme toggle
+            if (e.ctrlKey && e.key === 't') {
+                e.preventDefault();
+                toggleTheme();
+            }
+        });
+    </script>
+</body>
+</html>15,000</td>
                 <td class="prison">20</td>
                 <td>Engedély nélküli belépés magánterületre</td>
             </tr>
