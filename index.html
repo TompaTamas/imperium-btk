@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FiveM RP - Amerikai BTK</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body data-theme="light">
+    <div class="header">
+        <button class="theme-toggle" onclick="toggleTheme()">🌙 Sötét téma</button>
+        <h1>🚔 IMPERIUM LAW ENFORCEMENT (ILE)</h1>
+        <h2>Amerikai Büntetőtörvénykönyv - FiveM RP Szerver</h2>
+        <p>Bírság tartomány: $15,000 - $1,500,000 | Börtön: 20-150 perc</p>
+    </div>
+
+    <div class="stats-container">
+        <div class="stat-card">
+            <div class="stat-number" id="totalCrimes">0</div>
+            <div class="stat-label">Összes bűncselekmény</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" id="avgFine">$0</div>
+            <div class="stat-label">Átlagos bírság</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" id="avgPrison">0</div>
+            <div class="stat-label">Átlagos börtönbüntetés (perc)</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" id="statePrisonCount">0</div>
+            <div class="stat-label">Állami börtönbe vonulás</div>
+        </div>
+    </div>
+    
+    <div class="controls">
+        <button class="export-btn" onclick="exportToCSV()">📊 Exportálás CSV-be</button>
+        <button class="filter-btn" onclick="filterByCategory('all')">🔍 Összes</button>
+        <button class="filter-btn" onclick="filterByCategory('minor')">⚖️ Kisebb</button>
+        <button class="filter-btn" onclick="filterByCategory('medium')">🚨 Közepes</button>
+        <button class="filter-btn" onclick="filterByCategory('serious')">🔴 Súlyos</button>
+        <button class="filter-btn" onclick="filterByCategory('corruption')">💰 Korrupció</button>
+        <input type="text" class="search-box" placeholder="🔍 Keresés bűncselekmény neve vagy kódja alapján..." onkeyup="searchTable()">
+    </div>
+    
+    <table id="btkTable">
+        <thead>
+            <tr>
+                <th>Súlyosság</th>
+                <th>Rövidítés</th>
+                <th>Bűncselekmény megnevezése</th>
+                <th>Átlagos Bírság (USD)</th>
+                <th>Kiszabható börtönbüntetés (perc)</th>
+                <th>Magyarázat</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- KISEBB BŰNCSELEKMÉNYEK -->
+            <tr class="category">
+                <td colspan="6">I. KISEBB BŰNCSELEKMÉNYEK (MISDEMEANOR)</td>
+            </tr>
+            <tr data-category="minor">
+                <td><span class="severity-indicator severity-low"></span></td>
+                <td class="code">TRES-1</td>
+                <td>Magántulajdon megsértése</td>
+                <td class="fine">$15,000</td>
+                <td class="prison">20</td>
+                <td>Engedély nélküli belépés magánterületre</td>
+            </tr>
+            <tr data-category="minor">
+                <td><span class="severity-indicator severity-low"></span></td>
+                <td class="code">DIST-1</td>
+                <td>Közrendzavarás</td>
+                <td class="fine">$18,000</td>
+                <td class="prison">25</td>
+                <td>Hangoskodás, káromkodás közterületen</td>
+            </tr>
+            <tr data-category="minor">
+                <td><span class="severity-indicator severity-low"></span></td>
+                <td class="code">VAND-1</td>
+                <td>Vandalizmus</td>
+                <td class="fine">$22,000</td>
+                <td class="prison">30</td>
+                <td>Köztulajdon megrongálása</td>
+            </tr>
+            <tr data-category="minor">
+                <td><span class="severity-indicator severity-low"></span></td>
+                <td class="code">PRST-1</td>
+                <td>Prostitúció</td>
+                <td class="fine">$25,000</td>
+                <td class="prison">35</td>
+                <td>Szexuális szolgáltatás áruba bocsátása</td>
+            </tr>
+            <tr data-category="minor">
+                <td><span class="severity-indicator severity-low"></span></td>
+                <td class="code">PUB-1</td>
+                <td>Közittasság</td>
+                <td class="fine">$20,000</td>
+                <td class="prison">30</td>
+                <td>Alkohol/drog hatása alatt közterületen</td>
+            </tr>
+            
+            <!-- KÖZLEKEDÉSI BŰNCSELEKMÉNYEK -->
+            <tr class="category">
+                <td colspan="6">II. KÖZLEKEDÉSI BŰNCSELEKMÉNYEK</td>
+            </tr>
+            <tr data-category="minor">
+                <td><span class="severity-indicator severity-low"></span></td>
+                <td class="code">SPEED-1</td>
+                <td>Gyorshajtás (enyhe)</td>
+                <td class="fine">$15,000</td>
+                <td class="prison">20</td>
+                <td>Sebességtúllépés 20 mph alatt</td>
+            </tr>
+            <tr data-category="minor">
+                <td><span class="severity-indicator severity-medium"></span></td>
+                <td class="code">SPEED-2</td>
+                <td>Súlyos gyorshajtás</td>
+                <td class="fine">$35,000</td>
+                <td class="prison">40</td>
+                <td>Sebességtúllépés 20+ mph felett</td>
+            </tr>
+            <tr data-category="minor">
+                <td><span class="severity-indicator severity-medium"></span></td>
+                <td class="code">DUI-1</td>
+                <td>Ittas vezetés</td>
+                <td class="fine">$45,000</td>
+                <td class="prison">50</td>
+                <td>Alkohol/drog hatása alatt vezetés</td>
+            </tr>
+            <tr data-category="minor">
+                <td><span class="severity-indicator severity-medium"></span></td>
+                <td class="code">RECK-1</td>
+                <td>Gondatlan vezetés</td>
+                <td class="fine">$40,000</td>
+                <td class="prison">45</td>
+                <td>Veszélyes manőverek forgalomban</td>
+            </tr>
+            <tr data-category="medium">
+                <td><span class="severity-indicator severity-medium"></span></td>
+                <td class="code">HIT-1</td>
+                <td>Cserbenhagyás</td>
+                <td class="fine">$75,000</td>
+                <td class="prison">65</td>
+                <td>Baleset után távozás a helyszínről</td>
+            </tr>
+            
+            <!-- KISEBB VAGYON ELLENI BŰNCSELEKMÉNYEK -->
+            <tr class="category">
+                <td colspan="6">III. KISEBB VAGYON ELLENI BŰNCSELEKMÉNYEK</td>
+            </tr>
+            <tr data-category="medium">
+                <td><span class="severity-indicator severity-medium"></span></td>
+                <td class="code">ATM-1</td>
+                <td>ATM rablás</td>
+                <td class="fine">$65,000</td>
+                <td class="prison">55</td>
+                <td>Bankautomata feltörése, kifosztása</td>
+            </tr>
+            <tr data-category="medium">
+                <td><span class="severity-indicator severity-medium"></span></td>
+                <td class="code">SHOP-1</td>
+                <td>Boltrablás</td>
+                <td class="fine">$70,000</td>
+                <td class="prison">60</td>
+                <td>24/7, ruházati bolt, stb. kirablása</td>
+            </tr>
+            <tr data-category="medium">
+                <td><span class="severity-indicator severity-medium"></span></td>
+                <td class="code">FUEL-1</td>
+                <td>Benzinlopás</td>
+                <td class="fine">$35,000</td>
+                <td class="prison">40</td>
+                <td>Üzemanyag jogellenes eltulajdonítása</td>
+            </tr>
+            <tr data-category="medium">
+                <td><span class="severity-indicator severity-medium"></span></td>
+                <td class="code">AUTO-1</td>
+                <td>Autólopás (kisebb jármű)</td>
+                <td class="fine">$55,000</td>
+                <td class="prison">50</td>
+                <td>Közönséges járművek lopása (sedan, hatchback)</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-high"></span></td>
+                <td class="code">AUTO-2</td>
+                <td>Autólopás (prémium jármű)</td>
+                <td class="fine">$85,000</td>
+                <td class="prison">70</td>
+                <td>Sport- és luxusautók lopása</td>
+            </tr>
+            
+            <!-- DROG BŰNCSELEKMÉNYEK -->
+            <tr class="category">
+                <td colspan="6">IV. DROG BŰNCSELEKMÉNYEK</td>
+            </tr>
+            <tr data-category="minor">
+                <td><span class="severity-indicator severity-low"></span></td>
+                <td class="code">DRUG-P1</td>
+                <td>Drog birtoklás (kis mennyiség)</td>
+                <td class="fine">$30,000</td>
+                <td class="prison">35</td>
+                <td>Kábítószer személyes használatra (5g alatt)</td>
+            </tr>
+            <tr data-category="medium">
+                <td><span class="severity-indicator severity-medium"></span></td>
+                <td class="code">DRUG-P2</td>
+                <td>Drog birtoklás (nagy mennyiség)</td>
+                <td class="fine">$60,000</td>
+                <td class="prison">55</td>
+                <td>Kábítószer terjesztési szándékkal (5-50g)</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-high"></span></td>
+                <td class="code">DRUG-S1</td>
+                <td>Drog értékesítés</td>
+                <td class="fine">$120,000</td>
+                <td class="prison">80</td>
+                <td>Kábítószer értékesítése utcai szinten</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-high"></span></td>
+                <td class="code">DRUG-S2</td>
+                <td>Drog nagykereskedelem</td>
+                <td class="fine">$200,000</td>
+                <td class="prison">95</td>
+                <td>Nagy mennyiségű kábítószer forgalmazás (50g+)</td>
+            </tr>
+            
+            <!-- KÖZEPES BŰNCSELEKMÉNYEK -->
+            <tr class="category">
+                <td colspan="6">V. KÖZEPES BŰNCSELEKMÉNYEK</td>
+            </tr>
+            <tr data-category="medium">
+                <td><span class="severity-indicator severity-medium"></span></td>
+                <td class="code">THFT-1</td>
+                <td>Lopás</td>
+                <td class="fine">$50,000</td>
+                <td class="prison">60</td>
+                <td>Idegen tulajdon jogtalan elvétele ($5,000 alatt)</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-high"></span></td>
+                <td class="code">THFT-2</td>
+                <td>Súlyos lopás</td>
+                <td class="fine">$85,000</td>
+                <td class="prison">75</td>
+                <td>Idegen tulajdon jogtalan elvétele ($5,000-$50,000)</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-high"></span></td>
+                <td class="code">BURG-1</td>
+                <td>Betörés</td>
+                <td class="fine">$95,000</td>
+                <td class="prison">80</td>
+                <td>Lakóhely/üzlet jogellenes behatolás</td>
+            </tr>
+            <tr data-category="medium">
+                <td><span class="severity-indicator severity-medium"></span></td>
+                <td class="code">FRAU-1</td>
+                <td>Csalás</td>
+                <td class="fine">$65,000</td>
+                <td class="prison">70</td>
+                <td>Hamis dokumentumok, személyazonosság lopás</td>
+            </tr>
+            <tr data-category="medium">
+                <td><span class="severity-indicator severity-medium"></span></td>
+                <td class="code">ASLT-1</td>
+                <td>Testi sértés</td>
+                <td class="fine">$55,000</td>
+                <td class="prison">65</td>
+                <td>Fizikai erőszak másik személy ellen</td>
+            </tr>
+            
+            <!-- SÚLYOS VAGYON ELLENI BŰNCSELEKMÉNYEK -->
+            <tr class="category">
+                <td colspan="6">VI. SÚLYOS VAGYON ELLENI BŰNCSELEKMÉNYEK</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-high"></span></td>
+                <td class="code">HOME-1</td>
+                <td>Házrablás</td>
+                <td class="fine">$150,000</td>
+                <td class="prison">85</td>
+                <td>Lakóingatlan fegyveres kirablása</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-high"></span></td>
+                <td class="code">JEWL-1</td>
+                <td>Ékszerbolt rablás</td>
+                <td class="fine">$300,000</td>
+                <td class="prison">110</td>
+                <td>Ékszerüzlet fegyveres kirablása</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-extreme"></span></td>
+                <td class="code">BANK-1</td>
+                <td>Bankrablás (helyi bank)</td>
+                <td class="fine">$500,000</td>
+                <td class="prison">130</td>
+                <td>Helyi pénzintézet fegyveres kirablása</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-extreme"></span></td>
+                <td class="code">BANK-2</td>
+                <td>Nemzeti bank rablás</td>
+                <td class="fine">$800,000</td>
+                <td class="prison">145</td>
+                <td>Központi bank vagy szövetségi bank kirablása</td>
+            </tr>
+            
+            <!-- SZERVEZETT BŰNÖZÉS -->
+            <tr class="category">
+                <td colspan="6">VII. SZERVEZETT BŰNÖZÉS ÉS BANDAHÁBORÚ</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-extreme"></span></td>
+                <td class="code">GANG-1</td>
+                <td>Bandaháború (részvétel)</td>
+                <td class="fine">$200,000</td>
+                <td class="prison">100</td>
+                <td>Szervezett bűnözői csoportok közti fegyveres összecsapás</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-extreme"></span></td>
+                <td class="code">GANG-2</td>
+                <td>Bandaháború (szervezés)</td>
+                <td class="fine">$350,000</td>
+                <td class="prison">125</td>
+                <td>Bandaháború kezdeményezése, vezetése</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-high"></span></td>
+                <td class="code">RICO-1</td>
+                <td>Szervezett bűnözés</td>
+                <td class="fine">$400,000</td>
+                <td class="prison">120</td>
+                <td>Bűnözői szervezet tagjaként elkövetett cselekmények</td>
+            </tr>
+            
+            <!-- RENDVÉDELEM ELLENI BŰNCSELEKMÉNYEK -->
+            <tr class="category">
+                <td colspan="6">VIII. RENDVÉDELEM ELLENI BŰNCSELEKMÉNYEK</td>
+            </tr>
+            <tr data-category="medium">
+                <td><span class="severity-indicator severity-medium"></span></td>
+                <td class="code">OBST-1</td>
+                <td>Hatóság akadályozása</td>
+                <td class="fine">$35,000</td>
+                <td class="prison">40</td>
+                <td>Rendőri intézkedés akadályozása</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-high"></span></td>
+                <td class="code">RESI-1</td>
+                <td>Hatósági személy elleni erőszak</td>
+                <td class="fine">$75,000</td>
+                <td class="prison">70</td>
+                <td>Rendőr/hivatalnok elleni támadás</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-high"></span></td>
+                <td class="code">FLEE-1</td>
+                <td>Szökés rendőrök elől (gyalogosan)</td>
+                <td class="fine">$65,000</td>
+                <td class="prison">60</td>
+                <td>Gyalogos menekülés rendőri intézkedés elől</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-high"></span></td>
+                <td class="code">FLEE-2</td>
+                <td>Szökés rendőrök elől (járművel)</td>
+                <td class="fine">$85,000</td>
+                <td class="prison">75</td>
+                <td>Járműves menekülés rendőri üldözés során</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-extreme"></span></td>
+                <td class="code">POLI-1</td>
+                <td>Rendőr elleni súlyos támadás</td>
+                <td class="fine">$200,000</td>
+                <td class="prison">100</td>
+                <td>Rendőr életének veszélyeztetése fegyverrel</td>
+            </tr>
+            
+            <!-- FEGYVER BŰNCSELEKMÉNYEK -->
+            <tr class="category">
+                <td colspan="6">IX. FEGYVER BŰNCSELEKMÉNYEK</td>
+            </tr>
+            <tr data-category="medium">
+                <td><span class="severity-indicator severity-medium"></span></td>
+                <td class="code">WEAP-1</td>
+                <td>Illegális fegyvertartás (pisztoly)</td>
+                <td class="fine">$85,000</td>
+                <td class="prison">70</td>
+                <td>Engedély nélküli kézifegyver birtoklás</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-high"></span></td>
+                <td class="code">WEAP-2</td>
+                <td>Illegális fegyvertartás (automatikus)</td>
+                <td class="fine">$125,000</td>
+                <td class="prison">85</td>
+                <td>Géppisztoly, rohampuska engedély nélkül</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-extreme"></span></td>
+                <td class="code">WEAP-3</td>
+                <td>Fegyverkereskedelem</td>
+                <td class="fine">$200,000</td>
+                <td class="prison">95</td>
+                <td>Illegális fegyverek értékesítése</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-high"></span></td>
+                <td class="code">THRT-1</td>
+                <td>Fegyverrel fenyegetés</td>
+                <td class="fine">$65,000</td>
+                <td class="prison">60</td>
+                <td>Fegyver előrántása, fenyegetőzés</td>
+            </tr>
+            
+            <!-- KORRUPCIÓ -->
+            <tr class="corruption">
+                <td colspan="6">X. KORRUPCIÓS BŰNCSELEKMÉNYEK</td>
+            </tr>
+            <tr data-category="corruption" class="state-prison">
+                <td><span class="severity-indicator severity-high"></span></td>
+                <td class="code">CORR-1</td>
+                <td>Hivatali korrupció (alacsony)</td>
+                <td class="fine">$100,000</td>
+                <td class="prison">85</td>
+                <td>Kisebb összegű vesztegetés ($10,000 alatt)</td>
+            </tr>
+            <tr data-category="corruption" class="state-prison">
+                <td><span class="severity-indicator severity-extreme"></span></td>
+                <td class="code">CORR-2</td>
+                <td>Súlyos hivatali korrupció</td>
+                <td class="fine">$300,000</td>
+                <td class="prison">115</td>
+                <td>Nagy összegű vesztegetés ($10,000+)</td>
+            </tr>
+            <tr data-category="corruption" class="state-prison">
+                <td><span class="severity-indicator severity-high"></span></td>
+                <td class="code">BRIB-1</td>
+                <td>Vesztegetés (aktív)</td>
+                <td class="fine">$150,000</td>
+                <td class="prison">90</td>
+                <td>Hivatalnok megvesztegetése</td>
+            </tr>
+            <tr data-category="corruption" class="state-prison">
+                <td><span class="severity-indicator severity-high"></span></td>
+                <td class="code">BRIB-2</td>
+                <td>Vesztegetés (passzív)</td>
+                <td class="fine">$180,000</td>
+                <td class="prison">95</td>
+                <td>Vesztegetés elfogadása hivatalnokként</td>
+            </tr>
+            <tr data-category="corruption" class="state-prison">
+                <td><span class="severity-indicator severity-extreme"></span></td>
+                <td class="code">EMBE-1</td>
+                <td>Sikkasztás</td>
+                <td class="fine">$250,000</td>
+                <td class="prison">105</td>
+                <td>Közpénz/vagyon jogtalan elsajátítása</td>
+            </tr>
+            <tr data-category="corruption" class="state-prison">
+                <td><span class="severity-indicator severity-extreme"></span></td>
+                <td class="code">CONSP-1</td>
+                <td>Összeesküvés</td>
+                <td class="fine">$400,000</td>
+                <td class="prison">125</td>
+                <td>Szervezett korrupciós tevékenység</td>
+            </tr>
+            
+            <!-- VISSZAESÉSES BŰNCSELEKMÉNYEK -->
+            <tr class="category">
+                <td colspan="6">XI. VISSZAESÉSES BŰNCSELEKMÉNYEK (ESCALATING FINES)</td>  
+            </tr>
+            <tr data-category="minor">
+                <td><span class="severity-indicator severity-low"></span></td>
+                <td class="code">CHIP-1</td>
+                <td>Gépjármű chip-elés (1. alkalom)</td>
+                <td class="fine">$25,000</td>
+                <td class="prison">0</td>
+                <td>Járművek elektronikus rendszerének manipulálása - első elkövetés</td>
+            </tr>
+            <tr data-category="minor">
+                <td><span class="severity-indicator severity-medium"></span></td>
+                <td class="code">CHIP-2</td>
+                <td>Gépjármű chip-elés (2. alkalom)</td>
+                <td class="fine">$50,000</td>
+                <td class="prison">0</td>
+                <td>Járművek elektronikus rendszerének manipulálása - második elkövetés</td>
+            </tr>
+            <tr data-category="medium">
+                <td><span class="severity-indicator severity-medium"></span></td>
+                <td class="code">CHIP-3</td>
+                <td>Gépjármű chip-elés (3. alkalom)</td>
+                <td class="fine">$75,000</td>
+                <td class="prison">0</td>
+                <td>Járművek elektronikus rendszerének manipulálása - harmadik elkövetés</td>
+            </tr>
+            <tr data-category="medium">
+                <td><span class="severity-indicator severity-high"></span></td>
+                <td class="code">CHIP-4</td>
+                <td>Gépjármű chip-elés (4+ alkalom)</td>
+                <td class="fine">$100,000</td>
+                <td class="prison">0</td>
+                <td>Járművek elektronikus rendszerének manipulálása - negyedik és további</td>
+            </tr>
+            <tr data-category="serious">
+                <td><span class="severity-indicator severity-high"></span></td>
+                <td class="code">CHIP-5</td>
+                <td>Gépjármű chip-elés (visszaeső)</td>
+                <td class="fine">$100,000</td>
+                <td class="prison">45</td>
+                <td>Járművek elektronikus rendszerének manipulálása - 5+ alkalom után börtönnel</td>
+            </tr>
+            <tr data-category="corruption" class="state-prison">
+                <td><span class="severity-indicator severity-extreme"></span></td>
+                <td class="code">LAUN-1</td>
+                <td>Pénzmosás</td>
+                <td class="fine">$350,000</td>
+                <td class="prison">120</td>
+                <td>Illegális pénzek legalizálása</td>
+            </tr>
+            
+            <!-- LEGSÚLYOSABB BŰNCSELEKMÉNYEK -->
+            <tr class="category">
+                <td colspan="6">XII. LEGSÚLYOSABB BŰNCSELEKMÉNYEK</td>
+            </tr>
+            <tr data-category="serious" class="state-prison">
+                <td><span class="severity-indicator severity-extreme"></span></td>
+                <td class="code">KIDN-1</td>
+                <td>Emberrablás</td>
+                <td class="fine">$350,000</td>
+                <td class="prison">120</td>
+                <td>Személy akarata ellenére fogva tartás</td>
+            </tr>
+            <tr data-category="serious" class="state-prison">
+                <td><span class="severity-indicator severity-extreme"></span></td>
+                <td class="code">ARSO-1</td>
+                <td>Gyújtogatás</td>
+                <td class="fine">$275,000</td>
+                <td class="prison">110</td>
+                <td>Szándékos tűzokozás</td>
+            </tr>
+            <tr data-category="serious" class="state-prison">
+                <td><span class="severity-indicator severity-extreme"></span></td>
+                <td class="code">MASS-1</td>
+                <td>Tömeges erőszak</td>
+                <td class="fine">$600,000</td>
+                <td class="prison">140</td>
+                <td>Többszemélyes támadás fegyverrel, tömeges károkozás</td>
+            </tr>
+            <tr data-category="serious" class="state-prison">
+                <td><span class="severity-indicator severity-extreme"></span></td>
+                <td class="code">MURD-3</td>
+                <td>Harmad- és másodfokú gyilkosság</td>
+                <td class="fine">$750,000</td>
+                <td class="prison">140</td>
+                <td>Szándékos emberölés súlyosító körülmények nélkül</td>
+            </tr>
+            <tr data-category="serious" class="state-prison">
+                <td><span class="severity-indicator severity-extreme"></span></td>
+                <td class="code">MURD-1</td>
+                <td>Elsőfokú gyilkosság</td>
+                <td class="fine">$1,200,000</td>
+                <td class="prison">150</td>
+                <td>Előre megfontolt, különös kegyetlenséggel elkövetett gyilkosság</td>
+            </tr>
+            <tr data-category="serious" class="state-prison">
+                <td><span class="severity-indicator severity-extreme"></span></td>
+                <td class="code">TERR-1</td>
+                <td>Terrorizmus</td>
+                <td class="fine">$1,500,000</td>
+                <td class="prison">150</td>
+                <td>Terrorcselekmény, közbiztonság súlyos veszélyeztetése</td>
+            </tr>
+            <tr data-category="serious" class="state-prison">
+                <td><span class="severity-indicator severity-extreme"></span></td>
+                <td class="code">SEDIT-1</td>
+                <td>Lázadás szítása</td>
+                <td class="fine">$1,500,000</td>
+                <td class="prison">150</td>
+                <td>Állami rend megdöntésére irányuló tevékenység, lázadás szervezése</td>
+            </tr>
+
+        </tbody>
+    </table>
+    
+    <div class="notes">
+        <h3>📋 Fontos megjegyzések és szabályozás:</h3>
+        <ul>
+            <li><strong>🏛️ Állami börtön:</strong> 60 perc (1 óra) feletti büntetések esetén automatikusan állami börtönbe kerül az elkövető</li>
+            <li><strong>🏢 Helyi börtön:</strong> 60 perc alatti büntetések esetén helyi őrizetben tartás</li>
+            <li><strong>💰 Korrupció különleges szabályai:</strong> Hivatali személyek esetén dupla bírság és +25% börtönbüntetés alkalmazható</li>
+            <li><strong>🔄 Többszörös bűncselekmény:</strong> Ugyanazon napon elkövetett több bűncselekmény esetén +50% bírság és börtönbüntetés növekmény</li>
+            <li><strong>📊 Korábbi büntetett előélet:</strong> Már elítélt személyek esetén +25% növekmény minden kategóriában</li>
+            <li><strong>⚖️ Enyhítő körülmények:</strong> Együttműködés, beismerés esetén -15% csökkentés alkalmazható</li>
+            <li><strong>🚨 Súlyosító körülmények:</strong> Fegyver használat, sérülés okozása esetén +30% növekmény</li>
+            <li><strong>👥 Bandatag státusz:</strong> Ismert bandatag esetén +20% növekmény minden bűncselekménynél</li>
+            <li><strong>🎯 Célpont típusa:</strong> Rendvédelmi célpontok (rendőrök, bírók) esetén dupla büntetés</li>
+            <li><strong>⏰ Vészhelyzeti protokoll:</strong> Válsághelyzetben (pl. bandaháború) gyorsított eljárás alkalmazható</li>
+        </ul>
+        
+        <h3>💸 Korrupciós tevékenységek részletes leírása:</h3>
+        <ul>
+            <li><strong>CORR-1 - Kisebb korrupció:</strong> Közlekedési bírság elengedése, kisebb ügyekben szívességek ($1,000-$10,000)</li>
+            <li><strong>CORR-2 - Súlyos korrupció:</strong> Bűnügyek eltusolása, bizonyítékok eltüntetése ($10,000+)</li>
+            <li><strong>BRIB-1 - Aktív vesztegetés:</strong> Pénz/ajándék felajánlása hivatalnoknak</li>
+            <li><strong>BRIB-2 - Passzív vesztegetés:</strong> Vesztegetés elfogadása hivatali személyként</li>
+            <li><strong>EMBE-1 - Sikkasztás:</strong> Lefoglalt tárgyak, pénzek eltulajdonítása</li>
+            <li><strong>CONSP-1 - Összeesküvés:</strong> Több hivatalnok koordinált korrupciós tevékenysége</li>
+        </ul>
+        
+        <h3>🔄 Visszaeséses bűncselekmények (csak pénzbírság):</h3>
+        <ul>
+            <li><strong>🔧 Gépjármű chip-elés:</strong></li>
+            <ul>
+                <li>Első elkövetés: $25,000</li>
+                <li>Második elkövetés: $50,000</li>
+                <li>Harmadik elkövetés: $75,000</li>
+                <li>Negyedik és további: $100,000</li>
+            </ul>
+            <li><strong>Ismétlődő chip-elés esetén börtönbüntetés:</strong> 5+ alkalom után 45 perc börtön</li>
+        </ul>
+        
+        <h3>🎮 Szerver specifikus szabályok:</h3>
+        <ul>
+            <li><strong>RP minőség:</strong> Gyenge roleplay esetén büntetés csökkentése megtagadható</li>
+            <li><strong>OOC szabálysértés:</strong> Játékon kívüli információ használata +100% bírság</li>
+            <li><strong>RDM/VDM:</strong> Random Death/Vehicle Death Match esetén automatikus maximum büntetés</li>
+            <li><strong>Szerver restart:</strong> Folyamatban lévő börtönbüntetés restart után folytatódik</li>
+            <li><strong>Offline büntetés:</strong> Kijelentkezés börtönbüntetés közben +50% időnövelés</li>
+        </ul>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
