@@ -157,21 +157,23 @@ body {
 }
 
 .cards-container {
-    display: block; /* Changed from grid to block for better separation */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px; /* Added gap between cards */
     margin-top: 20px;
 }
 
 .category-header {
     background: #d4af37;
     color: #0a0a0a;
-    font-size: 1.3em; /* Increased font size for prominence */
+    font-size: 1.3em;
     font-weight: bold;
     padding: 15px;
     border-radius: 8px;
-    margin-bottom: 15px; /* Added space below header */
-    width: 100%; /* Ensure full width */
+    margin-bottom: 15px;
+    width: 100%;
     text-align: center;
-    display: block; /* Ensure it’s a standalone block */
+    display: block;
 }
 
 .corruption-header {
@@ -184,10 +186,8 @@ body {
     border-radius: 8px;
     padding: 15px;
     border: 1px solid #2a2a2a;
-    margin-bottom: 15px; /* Added space between cards */
-    display: inline-block; /* Changed to inline-block for individual card separation */
-    width: calc(33.33% - 10px); /* Approx 3 columns with gap adjustment */
-    vertical-align: top; /* Align cards at the top */
+    width: calc(33.33% - 10px); /* Three columns with adjusted gap */
+    box-sizing: border-box;
 }
 
 .card:hover {
@@ -298,17 +298,17 @@ body {
     }
 
     .cards-container {
+        flex-direction: column; /* Stack cards vertically on mobile */
         margin-top: 10px;
     }
 
     .category-header {
-        font-size: 1.1em; /* Slightly smaller for mobile */
+        font-size: 1.1em;
         padding: 10px;
         margin-bottom: 10px;
     }
 
     .card {
         width: 100%; /* Full width on mobile */
-        margin-bottom: 10px;
     }
 }
