@@ -1,22 +1,4 @@
-let currentTheme = 'light';
 let currentFilter = 'all';
-
-function toggleTheme() {
-    const body = document.body;
-    const button = document.querySelector('.theme-toggle');
-    
-    if (currentTheme === 'light') {
-        body.setAttribute('data-theme', 'dark');
-        button.innerHTML = '☀️ Világos téma';
-        currentTheme = 'dark';
-    } else {
-        body.setAttribute('data-theme', table);
-        button.innerHTML = '🌙 Sötét téma';
-        currentTheme = 'light';
-    }
-    
-    sessionStorage.setItem('theme', currentTheme);
-}
 
 function filterByCategory(category) {
     currentFilter = category;
@@ -106,11 +88,6 @@ function updateStats() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    const savedTheme = sessionStorage.getItem('theme');
-    if (savedTheme && savedTheme === 'dark') {
-        toggleTheme();
-    }
-    
     const firstFilterBtn = document.querySelector('.filter-btn');
     if (firstFilterBtn) {
         firstFilterBtn.classList.add('active');
@@ -123,10 +100,5 @@ document.addEventListener('keydown', function(e) {
     if (e.ctrlKey && e.key === 'f') {
         e.preventDefault();
         document.querySelector('.search-box').focus();
-    }
-    
-    if (e.ctrlKey && e.key === 't') {
-        e.preventDefault();
-        toggleTheme();
     }
 });
