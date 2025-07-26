@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ILE Büntetőtörvénykönyv</title>
+    <title>FiveM ILE Büntetőtörvénykönyv</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
@@ -20,13 +20,16 @@
             <button class="filter-btn" onclick="filterByCategory('medium')">Közepes</button>
             <button class="filter-btn" onclick="filterByCategory('serious')">Súlyos</button>
             <button class="filter-btn" onclick="filterByCategory('corruption')">Korrupció</button>
+            <button class="discord-btn">
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/discord.svg" alt="Discord Logo">
+                Discord
+            </button>
         </div>
     </div>
 
     <div class="main-content">
         <header class="header">
             <h1>Imperium Büntetőtörvénykönyv</h1>
-            <p>https://discord.gg/sRedAXTCa9</p>
             <p>Imperium RolePlay | Bírság: $15,000 - $1,500,000 | Börtön: 20-150 perc</p>
             <p class="note"><strong>Megjegyzés:</strong> Az elkövető választhat a bírság és a börtönbüntetés között.</p>
             <div class="stats-container">
@@ -494,8 +497,8 @@
                     <h3>Hatósági személy elleni erőszak</h3>
                 </div>
                 <div class="card-body">
-                    <p><strong>Bírság:</strong> <span class="fine">$75,000</span></p>
-                    <p><strong>Börtön:</strong> <span class="prison">70 perc</span></p>
+                    <p><strong>Bírság:</strong> $75,000</p>
+                    <p><strong>Börtön:</strong> <span class="time">70 perc</span></p>
                     <p>Rendőr/hivatalnok elleni támadás</p>
                 </div>
             </div>
@@ -511,7 +514,7 @@
                     <p>Járműves menekülés rendőri üldözés során</p>
                 </div>
             </div>
-            <div class="card" data-category="serious">
+            <div class="card" data-card" data-category="serious">
                 <div class="card-header">
                     <span class="severity-indicator severity-high"></span>
                     <span class="code">POLI-1</span>
@@ -526,7 +529,7 @@
             <div class="card" data-category="serious">
                 <div class="card-header">
                     <span class="severity-indicator severity-high"></span>
-                    <span class="code">WEAP-1</span>
+                    <span class="code">WEAP-1-1</span>
                     <h3>Illegális fegyvertartás (pisztoly)</h3>
                 </div>
                 <div class="card-body">
@@ -631,10 +634,10 @@
                     <p>Többszemélyes támadás fegyverrel, tömeges károkozás</p>
                 </div>
             </div>
-            <div class="card" data-category="serious">
+            <div class="card" data-card="serious">
                 <div class="card-header">
                     <span class="severity-indicator severity-high"></span>
-                    <span class="code">MURD-3</span>
+                <span class="code">MURD-3</span>
                     <h3>Harmad- és másodfokú gyilkosság</h3>
                 </div>
                 <div class="card-body">
@@ -676,7 +679,7 @@
                     <h3>Terrorizmus</h3>
                 </div>
                 <div class="card-body">
-                    <p><strong>Bírság:</strong> <span class="fine">$1,500,000</span></p>
+                    <p><strong>Birkág:</strong> <span class="fine">$1,500,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">150 perc</span></p>
                     <p>Terrorcselekmény, közbiztonság súlyos veszélyeztetése</p>
                 </div>
@@ -775,7 +778,7 @@
                 <ul>
                     <li><strong>Állami börtön:</strong> 60 perc feletti büntetések esetén állami börtön</li>
                     <li><strong>Helyi börtön:</strong> 60 perc alatti büntetések esetén helyi őrizet</li>
-                    <li><strong>Korrupció:</strong> Hivatali személyek esetén dupla bírság, +25% börtön</li>
+                    <li><strong>Korrupció k:</strong>Hivatali személyek esetén dupla bírság, +25% börtön</li>
                     <li><strong>Többszörös bűncselekmény:</strong> Azonnali +50% bírság és börtön</li>
                     <li><strong>Büntetett előélet:</strong> +25% minden kategóriában</li>
                     <li><strong>Enyhítő körülmények:</strong> Együttműködés esetén -15%</li>
@@ -797,6 +800,7 @@
                 </ul>
             </div>
         </div>
+
     </div>
 
     <script src="script.js"></script>
