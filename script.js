@@ -8,37 +8,29 @@ function filterByCategory(category) {
 
     buttons.forEach(btn => btn.classList.remove('active'));
     buttons.forEach(btn => {
-        if (btn.textContent.includes('Összes') && category === 'all') btn.classList.add('active');
-        if (btn.textContent.includes('Kisebb') && category === 'low') btn.classList.add('active');
-        if (btn.textContent.includes('Közepes') && category === 'medium') btn.classList.add('active');
-        if (btn.textContent.includes('Súlyos') && category === 'serious') btn.classList.add('active');
-        if (btn.textContent.includes('Korrupció') && category === 'corruption') btn.classList.add('active');
+        if (btn.textContent === 'Összes' && category === 'all') btn.classList.add('active');
+        if (btn.textContent === 'Kisebb' && category === 'low') btn.classList.add('active');
+        if (btn.textContent === 'Közepes' && category === 'medium') btn.classList.add('active');
+        if (btn.textContent === 'Súlyos' && category === 'serious') btn.classList.add('active');
+        if (btn.textContent === 'Korrupció' && category === 'corruption') btn.classList.add('active');
     });
 
     cards.forEach(card => {
         const cardCategory = card.getAttribute('data-category');
-        if (category === 'all' || cardCategory === category) {
-            card.style.display = 'block';
-        } else {
-            card.style.display = 'none';
-        }
+        card.style.display = (category === 'all' || cardCategory === category) ? 'block' : 'none';
     });
 
     categoryHeaders.forEach(header => {
-        if (category === 'all') {
-            header.style.display = 'block';
-        } else {
-            const nextCards = header.nextElementSibling;
-            let shouldShow = false;
-            while (nextCards && nextCards.classList.contains('card')) {
-                if (nextCards.getAttribute('data-category') === category) {
-                    shouldShow = true;
-                    break;
-                }
-                nextCards = nextCards.nextElementSibling;
+        let hasVisibleCards = false;
+        let nextSibling = header.nextElementSibling;
+        while (nextSibling && nextSibling.classList.contains('card')) {
+            if (nextSibling.style.display !== 'none') {
+                hasVisibleCards = true;
+                break;
             }
-            header.style.display = shouldShow ? 'block' : 'none';
+            nextSibling = nextSibling.nextElementSibling;
         }
+        header.style.display = hasVisibleCards ? 'block' : 'none';
     });
 
     updateStats();
@@ -55,11 +47,7 @@ function searchCards() {
         const name = card.querySelector('h3').textContent.toLowerCase();
         const description = card.querySelector('.card-body p:last-child').textContent.toLowerCase();
 
-        if (code.includes(filter) || name.includes(filter) || description.includes(filter)) {
-            card.style.display = 'block';
-        } else {
-            card.style.display = 'none';
-        }
+        card.style.display = (code.includes(filter) || name.includes(filter) || description.includes(filter)) ? 'block' : 'none';
     });
 
     categoryHeaders.forEach(header => {
@@ -80,7 +68,6 @@ function searchCards() {
 
 function updateStats() {
     const visibleCards = document.querySelectorAll('.card:not([style*="display: none"])');
-
     let totalCrimes = 0;
     let totalFines = 0;
     let totalPrison = 0;
@@ -90,13 +77,9 @@ function updateStats() {
         totalCrimes++;
         const fine = parseInt(card.querySelector('.fine').textContent.replace(/[\$,]/g, '')) || 0;
         const prison = parseInt(card.querySelector('.prison').textContent.replace(/ perc/g, '')) || 0;
-
         totalFines += fine;
         totalPrison += prison;
-
-        if (prison > 60) {
-            statePrisonCount++;
-        }
+        if (prison > 60) statePrisonCount++;
     });
 
     document.getElementById('totalCrimes').textContent = totalCrimes;
@@ -110,15 +93,12 @@ function toggleNotes(id) {
     content.classList.toggle('hidden');
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    const firstFilterBtn = document.querySelector('.filter-btn');
-    if (firstFilterBtn) {
-        firstFilterBtn.classList.add('active');
-    }
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelector('.filter-btn').classList.add('active');
     updateStats();
 });
 
-document.addEventListener('keydown', function(e) {
+document.addEventListener('keydown', e => {
     if (e.ctrlKey && e.key === 'f') {
         e.preventDefault();
         document.querySelector('.search-box').focus();
