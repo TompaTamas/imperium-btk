@@ -5,36 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FiveM ILE Büntetőtörvénykönyv</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="sidebar">
         <div class="sidebar-header">
-            <h2>🚔 ILE</h2>
+            <h2>ILE</h2>
             <p>Imperium Law Enforcement</p>
         </div>
-        <div class="search-container">
-            <input type="text" class="search-box" placeholder="Keresés (kód, név, magyarázat)" onkeyup="searchCards()">
-        </div>
+        <input type="text" class="search-box" placeholder="Keresés..." onkeyup="searchCards()">
         <div class="filter-container">
-            <h3>Szűrők</h3>
-            <button class="filter-btn active" onclick="filterByCategory('all')">🔍 Összes</button>
-            <button class="filter-btn" onclick="filterByCategory('low')">⚖️ Kisebb</button>
-            <button class="filter-btn" onclick="filterByCategory('medium')">🚨 Közepes</button>
-            <button class="filter-btn" onclick="filterByCategory('serious')">🔴 Súlyos</button>
-            <button class="filter-btn" onclick="filterByCategory('corruption')">💰 Korrupció</button>
+            <button class="filter-btn active" onclick="filterByCategory('all')">Összes</button>
+            <button class="filter-btn" onclick="filterByCategory('low')">Kisebb</button>
+            <button class="filter-btn" onclick="filterByCategory('medium')">Közepes</button>
+            <button class="filter-btn" onclick="filterByCategory('serious')">Súlyos</button>
+            <button class="filter-btn" onclick="filterByCategory('corruption')">Korrupció</button>
         </div>
     </div>
 
     <div class="main-content">
         <header class="header">
-            <h1>Amerikai Büntetőtörvénykönyv - FiveM RP Szerver</h1>
-            <p>Bírság tartomány: $15,000 - $1,500,000 | Börtön: 20-150 perc</p>
-            <p><strong>Megjegyzés:</strong> Az elkövető választhat a pénzbírság és a letöltendő börtönbüntetés között.</p>
+            <h1>Büntetőtörvénykönyv</h1>
+            <p>FiveM RP Szerver | Bírság: $15,000 - $1,500,000 | Börtön: 20-150 perc</p>
+            <p class="note"><strong>Megjegyzés:</strong> Az elkövető választhat a bírság és a börtönbüntetés között.</p>
             <div class="stats-container">
                 <div class="stat">
                     <span class="stat-number" id="totalCrimes">0</span>
-                    <span class="stat-label">Összes bűncselekmény</span>
+                    <span class="stat-label">Bűncselekmények</span>
                 </div>
                 <div class="stat">
                     <span class="stat-number" id="avgFine">$0</span>
@@ -42,7 +39,7 @@
                 </div>
                 <div class="stat">
                     <span class="stat-number" id="avgPrison">0</span>
-                    <span class="stat-label">Átlagos börtön (perc)</span>
+                    <span class="stat-label">Átlagos börtön</span>
                 </div>
                 <div class="stat">
                     <span class="stat-number" id="statePrisonCount">0</span>
@@ -52,8 +49,7 @@
         </header>
 
         <div class="cards-container" id="btkCards">
-            <!-- Alacsony súlyosságú bűncselekmények -->
-            <div class="category-header">I. ALACSONY SÚLYOSSÁGÚ BŰNCSELEKMÉNYEK</div>
+            <div class="category-header">I. Kisebb súlyosságú bűncselekmények</div>
             <div class="card" data-category="low">
                 <div class="card-header">
                     <span class="severity-indicator severity-low"></span>
@@ -63,7 +59,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$15,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">20 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Engedély nélküli belépés magánterületre</p>
+                    <p>Engedély nélküli belépés magánterületre</p>
                 </div>
             </div>
             <div class="card" data-category="low">
@@ -75,7 +71,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$18,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">25 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Hangoskodás, káromkodás közterületen</p>
+                    <p>Hangoskodás, káromkodás közterületen</p>
                 </div>
             </div>
             <div class="card" data-category="low">
@@ -87,7 +83,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$22,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">30 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Köztulajdon megrongálása</p>
+                    <p>Köztulajdon megrongálása</p>
                 </div>
             </div>
             <div class="card" data-category="low">
@@ -99,7 +95,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$25,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">35 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Szexuális szolgáltatás áruba bocsátása</p>
+                    <p>Szexuális szolgáltatás áruba bocsátása</p>
                 </div>
             </div>
             <div class="card" data-category="low">
@@ -111,7 +107,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$20,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">30 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Alkohol/drog hatása alatt közterületen</p>
+                    <p>Alkohol/drog hatása alatt közterületen</p>
                 </div>
             </div>
             <div class="card" data-category="low">
@@ -123,7 +119,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$15,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">20 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Sebességtúllépés 20 mph alatt</p>
+                    <p>Sebességtúllépés 20 mph alatt</p>
                 </div>
             </div>
             <div class="card" data-category="low">
@@ -135,7 +131,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$35,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">40 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Üzemanyag jogellenes eltulajdonítása</p>
+                    <p>Üzemanyag jogellenes eltulajdonítása</p>
                 </div>
             </div>
             <div class="card" data-category="low">
@@ -147,7 +143,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$30,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">35 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Kábítószer személyes használatra (5g alatt)</p>
+                    <p>Kábítószer személyes használatra (5g alatt)</p>
                 </div>
             </div>
             <div class="card" data-category="low">
@@ -159,7 +155,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$35,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">40 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Rendőri intézkedés akadályozása</p>
+                    <p>Rendőri intézkedés akadályozása</p>
                 </div>
             </div>
             <div class="card" data-category="low">
@@ -171,7 +167,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$25,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">0 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Járművek elektronikus rendszerének manipulálása - első elkövetés</p>
+                    <p>Járművek elektronikus rendszerének manipulálása - első elkövetés</p>
                 </div>
             </div>
             <div class="card" data-category="low">
@@ -183,12 +179,11 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$50,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">0 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Járművek elektronikus rendszerének manipulálása - második elkövetés</p>
+                    <p>Járművek elektronikus rendszerének manipulálása - második elkövetés</p>
                 </div>
             </div>
 
-            <!-- Közepes súlyosságú bűncselekmények -->
-            <div class="category-header">II. KÖZEPES SÚLYOSSÁGÚ BŰNCSELEKMÉNYEK</div>
+            <div class="category-header">II. Közepes súlyosságú bűncselekmények</div>
             <div class="card" data-category="medium">
                 <div class="card-header">
                     <span class="severity-indicator severity-medium"></span>
@@ -198,7 +193,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$35,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">40 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Sebességtúllépés 20+ mph felett</p>
+                    <p>Sebességtúllépés 20+ mph felett</p>
                 </div>
             </div>
             <div class="card" data-category="medium">
@@ -210,7 +205,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$45,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">50 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Alkohol/drog hatása alatt vezetés</p>
+                    <p>Alkohol/drog hatása alatt vezetés</p>
                 </div>
             </div>
             <div class="card" data-category="medium">
@@ -222,7 +217,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$40,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">45 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Veszélyes manőverek forgalomban</p>
+                    <p>Veszélyes manőverek forgalomban</p>
                 </div>
             </div>
             <div class="card" data-category="medium">
@@ -234,7 +229,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$65,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">55 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Bankautomata feltörése, kifosztása</p>
+                    <p>Bankautomata feltörése, kifosztása</p>
                 </div>
             </div>
             <div class="card" data-category="medium">
@@ -246,7 +241,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$70,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">60 perc</span></p>
-                    <p><strong>Magyarázat:</strong> 24/7, ruházati bolt, stb. kirablása</p>
+                    <p>24/7, ruházati bolt, stb. kirablása</p>
                 </div>
             </div>
             <div class="card" data-category="medium">
@@ -258,7 +253,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$55,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">50 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Közönséges járművek lopása (sedan, hatchback)</p>
+                    <p>Közönséges járművek lopása (sedan, hatchback)</p>
                 </div>
             </div>
             <div class="card" data-category="medium">
@@ -270,7 +265,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$60,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">55 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Kábítószer terjesztési szándékkal (5-50g)</p>
+                    <p>Kábítószer terjesztési szándékkal (5-50g)</p>
                 </div>
             </div>
             <div class="card" data-category="medium">
@@ -282,7 +277,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$50,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">60 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Idegen tulajdon jogtalan elvétele ($5,000 alatt)</p>
+                    <p>Idegen tulajdon jogtalan elvétele ($5,000 alatt)</p>
                 </div>
             </div>
             <div class="card" data-category="medium">
@@ -294,7 +289,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$55,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">65 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Fizikai erőszak másik személy ellen</p>
+                    <p>Fizikai erőszak másik személy ellen</p>
                 </div>
             </div>
             <div class="card" data-category="medium">
@@ -306,7 +301,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$65,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">60 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Gyalogos menekülés rendőri intézkedés elől</p>
+                    <p>Gyalogos menekülés rendőri intézkedés elől</p>
                 </div>
             </div>
             <div class="card" data-category="medium">
@@ -318,7 +313,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$65,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">60 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Fegyver előrántása, fenyegetőzés</p>
+                    <p>Fegyver előrántása, fenyegetőzés</p>
                 </div>
             </div>
             <div class="card" data-category="medium">
@@ -330,12 +325,11 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$75,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">0 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Járművek elektronikus rendszerének manipulálása - harmadik elkövetés</p>
+                    <p>Járművek elektronikus rendszerének manipulálása - harmadik elkövetés</p>
                 </div>
             </div>
 
-            <!-- Súlyos bűncselekmények -->
-            <div class="category-header">III. SÚLYOS BŰNCSELEKMÉNYEK</div>
+            <div class="category-header">III. Súlyos bűncselekmények</div>
             <div class="card" data-category="serious">
                 <div class="card-header">
                     <span class="severity-indicator severity-high"></span>
@@ -345,7 +339,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$75,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">65 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Baleset után távozás a helyszínről</p>
+                    <p>Baleset után távozás a helyszínről</p>
                 </div>
             </div>
             <div class="card" data-category="serious">
@@ -357,7 +351,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$85,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">70 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Sport- és luxusautók lopása</p>
+                    <p>Sport- és luxusautók lopása</p>
                 </div>
             </div>
             <div class="card" data-category="serious">
@@ -369,7 +363,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$120,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">80 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Kábítószer értékesítése utcai szinten</p>
+                    <p>Kábítószer értékesítése utcai szinten</p>
                 </div>
             </div>
             <div class="card" data-category="serious">
@@ -381,7 +375,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$200,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">95 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Nagy mennyiségű kábítószer forgalmazás (50g+)</p>
+                    <p>Nagy mennyiségű kábítószer forgalmazás (50g+)</p>
                 </div>
             </div>
             <div class="card" data-category="serious">
@@ -393,7 +387,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$85,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">75 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Idegen tulajdon jogtalan elvétele ($5,000-$50,000)</p>
+                    <p>Idegen tulajdon jogtalan elvétele ($5,000-$50,000)</p>
                 </div>
             </div>
             <div class="card" data-category="serious">
@@ -405,7 +399,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$95,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">80 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Lakóhely/üzlet jogellenes behatolás</p>
+                    <p>Lakóhely/üzlet jogellenes behatolás</p>
                 </div>
             </div>
             <div class="card" data-category="serious">
@@ -417,7 +411,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$65,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">70 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Hamis dokumentumok, személyazonosság lopás</p>
+                    <p>Hamis dokumentumok, személyazonosság lopás</p>
                 </div>
             </div>
             <div class="card" data-category="serious">
@@ -429,7 +423,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$150,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">85 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Lakóingatlan fegyveres kirablása</p>
+                    <p>Lakóingatlan fegyveres kirablása</p>
                 </div>
             </div>
             <div class="card" data-category="serious">
@@ -441,7 +435,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$300,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">110 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Ékszerüzlet fegyveres kirablása</p>
+                    <p>Ékszerüzlet fegyveres kirablása</p>
                 </div>
             </div>
             <div class="card" data-category="serious">
@@ -449,12 +443,13 @@
                     <span class="severity-indicator severity-high"></span>
                     <span class="code">BANK-1</span>
                     <h3>Bankrablás (helyi bank)</h3>
-                    <div class="card-body">
-                        <p><strong>Bírság:</strong> <span class="fine">$500,000</span></p>
-                        <p><strong>Börtön:</strong> <span class="prison">130 perc</span></p>
-                        <p><strong>Magyarázat:</strong> Helyi pénzintézet fegyveres kirablása</p>
-                    </div>
                 </div>
+                <div class="card-body">
+                    <p><strong>Bírság:</strong> <span class="fine">$500,000</span></p>
+                    <p><strong>Börtön:</strong> <span class="prison">130 perc</span></p>
+                    <p>Helyi pénzintézet fegyveres kirablása</p>
+                </div>
+            </div>
             <div class="card" data-category="serious">
                 <div class="card-header">
                     <span class="severity-indicator severity-high"></span>
@@ -464,7 +459,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$200,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">100 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Szervezett bűnözői csoportok közti fegyveres összecsapás</p>
+                    <p>Szervezett bűnözői csoportok közti fegyveres összecsapás</p>
                 </div>
             </div>
             <div class="card" data-category="serious">
@@ -476,7 +471,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$350,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">125 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Bandaháború kezdeményezése, vezetése</p>
+                    <p>Bandaháború kezdeményezése, vezetése</p>
                 </div>
             </div>
             <div class="card" data-category="serious">
@@ -488,7 +483,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$400,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">120 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Bűnözői szervezet tagjaként elkövetett cselekmények</p>
+                    <p>Bűnözői szervezet tagjaként elkövetett cselekmények</p>
                 </div>
             </div>
             <div class="card" data-category="serious">
@@ -500,7 +495,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$75,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">70 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Rendőr/hivatalnok elleni támadás</p>
+                    <p>Rendőr/hivatalnok elleni támadás</p>
                 </div>
             </div>
             <div class="card" data-category="serious">
@@ -512,7 +507,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$85,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">75 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Járműves menekülés rendőri üldözés során</p>
+                    <p>Járműves menekülés rendőri üldözés során</p>
                 </div>
             </div>
             <div class="card" data-category="serious">
@@ -524,7 +519,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$200,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">100 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Rendőr életének veszélyeztetése fegyverrel</p>
+                    <p>Rendőr életének veszélyeztetése fegyverrel</p>
                 </div>
             </div>
             <div class="card" data-category="serious">
@@ -536,7 +531,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$85,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">70 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Engedély nélküli kézifegyver birtoklás</p>
+                    <p>Engedély nélküli kézifegyver birtoklás</p>
                 </div>
             </div>
             <div class="card" data-category="serious">
@@ -548,7 +543,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$125,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">85 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Géppisztoly, rohampuska engedély nélkül</p>
+                    <p>Géppisztoly, rohampuska engedély nélkül</p>
                 </div>
             </div>
             <div class="card" data-category="serious">
@@ -560,7 +555,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$200,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">95 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Illegális fegyverek értékesítése</p>
+                    <p>Illegális fegyverek értékesítése</p>
                 </div>
             </div>
             <div class="card" data-category="serious">
@@ -572,7 +567,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$100,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">0 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Járművek elektronikus rendszerének manipulálása - negyedik és további</p>
+                    <p>Járművek elektronikus rendszerének manipulálása - negyedik és további</p>
                 </div>
             </div>
             <div class="card" data-category="serious">
@@ -584,7 +579,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$100,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">45 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Járművek elektronikus rendszerének manipulálása - 5+ alkalom után börtönnel</p>
+                    <p>Járművek elektronikus rendszerének manipulálása - 5+ alkalom után börtönnel</p>
                 </div>
             </div>
             <div class="card" data-category="serious">
@@ -596,7 +591,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$350,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">120 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Illegális pénzek legalizálása</p>
+                    <p>Illegális pénzek legalizálása</p>
                 </div>
             </div>
             <div class="card" data-category="serious">
@@ -608,7 +603,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$350,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">120 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Személy akarata ellenére fogva tartás</p>
+                    <p>Személy akarata ellenére fogva tartás</p>
                 </div>
             </div>
             <div class="card" data-category="serious">
@@ -620,7 +615,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$275,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">110 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Szándékos tűzokozás</p>
+                    <p>Szándékos tűzokozás</p>
                 </div>
             </div>
             <div class="card" data-category="serious">
@@ -632,7 +627,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$600,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">140 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Többszemélyes támadás fegyverrel, tömeges károkozás</p>
+                    <p>Többszemélyes támadás fegyverrel, tömeges károkozás</p>
                 </div>
             </div>
             <div class="card" data-category="serious">
@@ -644,12 +639,11 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$750,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">140 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Szándékos emberölés súlyosító körülmények nélkül</p>
+                    <p>Szándékos emberölés súlyosító körülmények nélkül</p>
                 </div>
             </div>
 
-            <!-- Rendkívül súlyos bűncselekmények -->
-            <div class="category-header">IV. RENDKÍVÜLI SÚLYOSSÁGÚ BŰNCSELEKMÉNYEK</div>
+            <div class="category-header">IV. Rendkívül súlyos bűncselekmények</div>
             <div class="card" data-category="serious">
                 <div class="card-header">
                     <span class="severity-indicator severity-extreme"></span>
@@ -659,7 +653,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$800,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">145 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Központi bank vagy szövetségi bank kirablása</p>
+                    <p>Központi bank vagy szövetségi bank kirablása</p>
                 </div>
             </div>
             <div class="card" data-category="serious">
@@ -671,7 +665,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$1,200,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">150 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Előre megfontolt, különös kegyetlenséggel elkövetett gyilkosság</p>
+                    <p>Előre megfontolt, különös kegyetlenséggel elkövetett gyilkosság</p>
                 </div>
             </div>
             <div class="card" data-category="serious">
@@ -683,7 +677,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$1,500,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">150 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Terrorcselekmény, közbiztonság súlyos veszélyeztetése</p>
+                    <p>Terrorcselekmény, közbiztonság súlyos veszélyeztetése</p>
                 </div>
             </div>
             <div class="card" data-category="serious">
@@ -695,12 +689,11 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$1,500,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">150 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Állami rend megdöntésére irányuló tevékenység, lázadás szervezése</p>
+                    <p>Állami rend megdöntésére irányuló tevékenység, lázadás szervezése</p>
                 </div>
             </div>
 
-            <!-- Korrupciós bűncselekmények -->
-            <div class="category-header corruption-header">V. KORRUPCIÓS BŰNCSELEKMÉNYEK</div>
+            <div class="category-header corruption-header">V. Korrupciós bűncselekmények</div>
             <div class="card" data-category="corruption">
                 <div class="card-header">
                     <span class="severity-indicator severity-high"></span>
@@ -710,7 +703,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$100,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">85 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Kisebb összegű vesztegetés ($10,000 alatt)</p>
+                    <p>Kisebb összegű vesztegetés ($10,000 alatt)</p>
                 </div>
             </div>
             <div class="card" data-category="corruption">
@@ -722,7 +715,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$300,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">115 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Nagy összegű vesztegetés ($10,000+)</p>
+                    <p>Nagy összegű vesztegetés ($10,000+)</p>
                 </div>
             </div>
             <div class="card" data-category="corruption">
@@ -734,7 +727,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$150,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">90 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Hivatalnok megvesztegetése</p>
+                    <p>Hivatalnok megvesztegetése</p>
                 </div>
             </div>
             <div class="card" data-category="corruption">
@@ -746,7 +739,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$180,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">95 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Vesztegetés elfogadása hivatalnokként</p>
+                    <p>Vesztegetés elfogadása hivatalnokként</p>
                 </div>
             </div>
             <div class="card" data-category="corruption">
@@ -758,7 +751,7 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$250,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">105 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Közpénz/vagyon jogtalan elsajátítása</p>
+                    <p>Közpénz/vagyon jogtalan elsajátítása</p>
                 </div>
             </div>
             <div class="card" data-category="corruption">
@@ -770,40 +763,36 @@
                 <div class="card-body">
                     <p><strong>Bírság:</strong> <span class="fine">$400,000</span></p>
                     <p><strong>Börtön:</strong> <span class="prison">125 perc</span></p>
-                    <p><strong>Magyarázat:</strong> Szervezett korrupciós tevékenység</p>
+                    <p>Szervezett korrupciós tevékenység</p>
                 </div>
             </div>
         </div>
 
         <div class="notes-container">
-            <div class="notes-toggle" onclick="toggleNotes('generalNotes')">
-                📋 Fontos megjegyzések és szabályozás
-            </div>
+            <div class="notes-toggle" onclick="toggleNotes('generalNotes')">Szabályok</div>
             <div class="notes-content hidden" id="generalNotes">
                 <ul>
-                    <li>🏛️ <strong>Állami börtön:</strong> 60 perc (1 óra) feletti büntetések esetén automatikusan állami börtönbe kerül az elkövető</li>
-                    <li>🏢 <strong>Helyi börtön:</strong> 60 perc alatti büntetések esetén helyi őrizetben tartás</li>
-                    <li>💰 <strong>Korrupció különleges szabályai:</strong> Hivatali személyek esetén dupla bírság és +25% börtönbüntetés alkalmazható</li>
-                    <li>🔄 <strong>Többszörös bűncselekmény:</strong> Ugyanazon napon elkövetett több bűncselekmény esetén +50% bírság és börtönbüntetés növekmény</li>
-                    <li>📊 <strong>Korábbi büntetett előélet:</strong> Már elítélt személyek esetén +25% növekmény minden kategóriában</li>
-                    <li>⚖️ <strong>Enyhítő körülmények:</strong> Együttműködés, beismerés esetén -15% csökkentés alkalmazható</li>
-                    <li>🚨 <strong>Súlyosító körülmények:</strong> Fegyver használat, sérülés okozása esetén +30% növekmény</li>
-                    <li>👥 <strong>Bandatag státusz:</strong> Ismert bandatag esetén +20% növekmény minden bűncselekménynél</li>
-                    <li>🎯 <strong>Célpont típusa:</strong> Rendvédelmi célpontok (rendőrök, bírók) esetén dupla büntetés</li>
-                    <li>⏰ <strong>Vészhelyzeti protokoll:</strong> Válsághelyzetben (pl. bandaháború) gyorsított eljárás alkalmazható</li>
+                    <li><strong>Állami börtön:</strong> 60 perc feletti büntetések esetén állami börtön</li>
+                    <li><strong>Helyi börtön:</strong> 60 perc alatti büntetések esetén helyi őrizet</li>
+                    <li><strong>Korrupció:</strong> Hivatali személyek esetén dupla bírság, +25% börtön</li>
+                    <li><strong>Többszörös bűncselekmény:</strong> Azonnali +50% bírság és börtön</li>
+                    <li><strong>Büntetett előélet:</strong> +25% minden kategóriában</li>
+                    <li><strong>Enyhítő körülmények:</strong> Együttműködés esetén -15%</li>
+                    <li><strong>Súlyosító körülmények:</strong> Fegyver/sérülés esetén +30%</li>
+                    <li><strong>Bandatag:</strong> +20% minden bűncselekménynél</li>
+                    <li><strong>Rendvédelmi célpont:</strong> Dupla büntetés</li>
+                    <li><strong>Vészhelyzet:</strong> Gyorsított eljárás alkalmazható</li>
                 </ul>
             </div>
 
-            <div class="notes-toggle" onclick="toggleNotes('serverNotes')">
-                🎮 Szerver specifikus szabályok
-            </div>
+            <div class="notes-toggle" onclick="toggleNotes('serverNotes')">Szerver szabályok</div>
             <div class="notes-content hidden" id="serverNotes">
                 <ul>
-                    <li><strong>RP minőség:</strong> Gyenge roleplay esetén büntetés csökkentése megtagadható</li>
-                    <li><strong>OOC szabálysértés:</strong> Játékon kívüli információ használata +100% bírság</li>
-                    <li><strong>RDM/VDM:</strong> Random Death/Vehicle Death Match esetén automatikus maximum büntetés</li>
-                    <li><strong>Szerver restart:</strong> Folyamatban lévő börtönbüntetés restart után folytatódik</li>
-                    <li><strong>Offline büntetés:</strong> Kijelentkezés börtönbüntetés közben +50% időnövelés</li>
+                    <li><strong>RP minőség:</strong> Gyenge roleplay esetén nincs csökkentés</li>
+                    <li><strong>OOC szabálysértés:</strong> +100% bírság</li>
+                    <li><strong>RDM/VDM:</strong> Automatikus maximum büntetés</li>
+                    <li><strong>Szerver restart:</strong> Börtönbüntetés folytatódik</li>
+                    <li><strong>Offline büntetés:</strong> Kijelentkezés esetén +50% idő</li>
                 </ul>
             </div>
         </div>
