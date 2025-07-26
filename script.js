@@ -47,7 +47,7 @@ function searchCards() {
         const name = card.querySelector('h3').textContent.toLowerCase();
         const description = card.querySelector('.card-body p:last-child').textContent.toLowerCase();
 
-        card.style.display = (code.includes(filter) || name.includes(filter) || description.includes(filter)) ? 'block' : 'none';
+        card.style.card.display = (code.includes(filter) || name.includes(filter) || description.includes(filter)) ? 'block' : 'none';
     });
 
     categoryHeaders.forEach(header => {
@@ -105,11 +105,8 @@ document.addEventListener('keydown', e => {
     }
 });
 
-document.addEventListener('click', function(e) {
-    if (e.target.classList.contains('external-link')) {
-        const url = e.target.getAttribute('href');
-        if (url === 'https://discord.gg/sRedAXTCa9') {
-            window.location.href = url;
-        }
+document.addEventListener('click', e => {
+    if (e.target.classList.contains('discord-btn')) {
+        window.location.href = 'https://discord.com/invite/sRedAXTCa9';
     }
 });
