@@ -2,11 +2,11 @@ let currentFilter = 'all';
 
 function filterByCategory(category) {
     currentFilter = category;
-    const rows = document.querySelectorAll('#btkTable tbody tr');
+    const cards = document.querySelectorAll('.card');
+    const categoryHeaders = document.querySelectorAll('.category-header');
     const buttons = document.querySelectorAll('.filter-btn');
-    
+
     buttons.forEach(btn => btn.classList.remove('active'));
-    
     buttons.forEach(btn => {
         if (btn.textContent.includes('Összes') && category === 'all') btn.classList.add('active');
         if (btn.textContent.includes('Kisebb') && category === 'low') btn.classList.add('active');
@@ -14,77 +14,100 @@ function filterByCategory(category) {
         if (btn.textContent.includes('Súlyos') && category === 'serious') btn.classList.add('active');
         if (btn.textContent.includes('Korrupció') && category === 'corruption') btn.classList.add('active');
     });
-    
-    rows.forEach(row => {
-        if (row.classList.contains('category') || row.classList.contains('corruption')) {
-            row.style.display = '';
-        } else if (category === 'all') {
-            row.style.display = '';
+
+    cards.forEach(card => {
+        const cardCategory = card.getAttribute('data-category');
+        if (category === 'all' || cardCategory === category) {
+            card.style.display = 'block';
         } else {
-            const rowCategory = row.getAttribute('data-category');
-            if (rowCategory === category) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
+            card.style.display = 'none';
         }
     });
-    
+
+    categoryHeaders.forEach(header => {
+        if (category === 'all') {
+            header.style.display = 'block';
+        } else {
+            const nextCards = header.nextElementSibling;
+            let shouldShow = false;
+            while (nextCards && nextCards.classList.contains('card')) {
+                if (nextCards.getAttribute('data-category') === category) {
+                    shouldShow = true;
+                    break;
+                }
+                nextCards = nextCards.nextElementSibling;
+            }
+            header.style.display = shouldShow ? 'block' : 'none';
+        }
+    });
+
     updateStats();
 }
 
-function searchTable() {
+function searchCards() {
     const input = document.querySelector('.search-box');
     const filter = input.value.toLowerCase();
-    const rows = document.querySelectorAll('#btkTable tbody tr');
-    
-    rows.forEach(row => {
-        if (row.classList.contains('category') || row.classList.contains('corruption')) {
-            return;
-        }
-        
-        const code = row.cells[1]?.textContent.toLowerCase() || '';
-        const name = row.cells[2]?.textContent.toLowerCase() || '';
-        const description = row.cells[5]?.textContent.toLowerCase() || '';
-        
+    const cards = document.querySelectorAll('.card');
+    const categoryHeaders = document.querySelectorAll('.category-header');
+
+    cards.forEach(card => {
+        const code = card.querySelector('.code').textContent.toLowerCase();
+        const name = card.querySelector('h3').textContent.toLowerCase();
+        const description = card.querySelector('.card-body p:last-child').textContent.toLowerCase();
+
         if (code.includes(filter) || name.includes(filter) || description.includes(filter)) {
-            row.style.display = '';
+            card.style.display = 'block';
         } else {
-            row.style.display = 'none';
+            card.style.display = 'none';
         }
     });
-    
+
+    categoryHeaders.forEach(header => {
+        let hasVisibleCards = false;
+        let nextSibling = header.nextElementSibling;
+        while (nextSibling && nextSibling.classList.contains('card')) {
+            if (nextSibling.style.display !== 'none') {
+                hasVisibleCards = true;
+                break;
+            }
+            nextSibling = nextSibling.nextElementSibling;
+        }
+        header.style.display = hasVisibleCards ? 'block' : 'none';
+    });
+
     updateStats();
 }
 
 function updateStats() {
-    const visibleRows = document.querySelectorAll('#btkTable tbody tr:not(.category):not(.corruption):not([style*="display: none"])');
-    
+    const visibleCards = document.querySelectorAll('.card:not([style*="display: none"])');
+
     let totalCrimes = 0;
     let totalFines = 0;
     let totalPrison = 0;
     let statePrisonCount = 0;
-    
-    visibleRows.forEach(row => {
-        if (row.cells.length >= 5) {
-            totalCrimes++;
-            
-            const fine = parseInt(row.cells[3].textContent.replace(/[\$,]/g, '')) || 0;
-            const prison = parseInt(row.cells[4].textContent) || 0;
-            
-            totalFines += fine;
-            totalPrison += prison;
-            
-            if (prison > 60) {
-                statePrisonCount++;
-            }
+
+    visibleCards.forEach(card => {
+        totalCrimes++;
+        const fine = parseInt(card.querySelector('.fine').textContent.replace(/[\$,]/g, '')) || 0;
+        const prison = parseInt(card.querySelector('.prison').textContent.replace(/ perc/g, '')) || 0;
+
+        totalFines += fine;
+        totalPrison += prison;
+
+        if (prison > 60) {
+            statePrisonCount++;
         }
     });
-    
+
     document.getElementById('totalCrimes').textContent = totalCrimes;
     document.getElementById('avgFine').textContent = totalCrimes > 0 ? '$' + Math.round(totalFines / totalCrimes).toLocaleString() : '$0';
     document.getElementById('avgPrison').textContent = totalCrimes > 0 ? Math.round(totalPrison / totalCrimes) + ' perc' : '0 perc';
     document.getElementById('statePrisonCount').textContent = statePrisonCount;
+}
+
+function toggleNotes(id) {
+    const content = document.getElementById(id);
+    content.classList.toggle('hidden');
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -92,7 +115,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (firstFilterBtn) {
         firstFilterBtn.classList.add('active');
     }
-    
     updateStats();
 });
 
