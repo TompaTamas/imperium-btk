@@ -104,3 +104,12 @@ document.addEventListener('keydown', e => {
         document.querySelector('.search-box').focus();
     }
 });
+
+document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('external-link')) {
+        const url = e.target.getAttribute('href');
+        if (url === 'https://discord.gg/sRedAXTCa9') {
+            window.location.href = url;
+        }
+    }
+});
