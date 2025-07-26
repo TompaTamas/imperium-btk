@@ -47,7 +47,7 @@ function searchCards() {
         const name = card.querySelector('h3').textContent.toLowerCase();
         const description = card.querySelector('.card-body p:last-child').textContent.toLowerCase();
 
-        card.style.card.display = (code.includes(filter) || name.includes(filter) || description.includes(filter)) ? 'block' : 'none';
+        card.style.display = (filter === '' || code.includes(filter) || name.includes(filter) || description.includes(filter)) ? 'block' : 'none';
     });
 
     categoryHeaders.forEach(header => {
